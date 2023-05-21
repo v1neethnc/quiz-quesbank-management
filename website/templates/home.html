@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<br>
+<h1>Welcome, I guess</h1>
+<p>There are a bunch of things to do. First, create the stupid input pages. To be more specific,
+	<ul>
+		<li>Input new idea</li>
+		<li>Input new question</li>
+		<li>Input new quiz</li>
+		<li>Write new notes</li>
+	</ul>
+</p>
+
+<table class="table table-striped table-bordered table-hover table-responsive-lg">
+	<thead class="thead-dark">
+		<tr>
+			<th>Ideas</th>
+			<th>Questions</th>
+			<th>Quizzes</th>
+			<th>Notes</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a>Display Records</a></td>
+			<td><a>Display Records</a></td>
+			<td><a>Display Records</a></td>
+			<td><a>Display Records</a></td>
+		</tr>
+		<tr>
+			<td><a href="redirect-page?page=new_idea">Add New Record</a></td>
+			<td><a href="redirect-page?page=new_question">Add New Record</a></td>
+			<td><a href="redirect-page?page=new_quiz">Add New Record</a></td>
+			<td><a href="redirect-page?page=new_note">Add New Record</a></td>
+		</tr>
+		<tr>
+			<td><a>Update Record</a></td>
+			<td><a>Update Record</a></td>
+			<td><a>Update Record</a></td>
+			<td><a>Update Record</a></td>
+		</tr>
+	</tbody>
+</table>
+{% endblock %}
