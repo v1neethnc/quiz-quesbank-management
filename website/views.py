@@ -16,11 +16,14 @@ def redirect_page():
 		session['page'] = page
 		if 'new' in page:
 			return redirect(url_for('views.new_record'))
+		if 'display' in page:
+			return redirect(url_for('views.display_records'))
 	return render_template('404.html')
-		# if 'update' in page:
-		# 	ret
-
 
 @views.route("/new-record")
 def new_record():
 	return render_template('new_record.html')
+
+@views.route("/display-records")
+def display_records():
+	return render_template('display_records.html')

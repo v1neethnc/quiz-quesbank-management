@@ -3,11 +3,11 @@
 This is a test project to manage the questions that my friend and I write for the quizzes we do. The initial working version is going to be simpler and easier in its scope, it will be aimed only at managing the questions and associate them with the ideas.
 
 ## Current Situation
-----
+
 Everything is basically being shuffled between a Word document and an Excel spreadsheet. There's a need to change that using a website that updates the database but also gives a interface that acts both as the Word document and automatically adds the question to the database. This will make referencing easy as well, with the questions becoming easier to fetch and eliminating the need for Excel and Word.
 
 ## Database Details
-----
+
 ### List of Tables
 
 The following are the tables in the database:
