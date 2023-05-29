@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for
+from . import query_obj
 
 views = Blueprint('views', __name__)
 
@@ -17,6 +18,7 @@ def redirect_page():
 		if 'new' in page:
 			return redirect(url_for('views.new_record'))
 		if 'display' in page:
+			query_obj.data_fetcher()
 			return redirect(url_for('views.display_records'))
 	return render_template('404.html')
 
@@ -26,4 +28,4 @@ def new_record():
 
 @views.route("/display-records")
 def display_records():
-	return render_template('display_records.html')
+	return render_template('display_records.html', data=query_obj.data_used)

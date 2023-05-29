@@ -2,6 +2,12 @@
 
 {% block title %}Home Page{% endblock %}
 
+<!-- <script>
+	function ideas_filter(selectedoption) {
+		document.getElementById("ideas_list_display")
+	}
+</script> -->
+
 {% block content %}
 	<br>
 	{% if session.page == 'display_idea' %}
@@ -9,23 +15,30 @@
 			<h1>Displaying List of Ideas</h1>
 		</div>
 		<br>
-		<form>
-			<div class="pt-lg-2">
-				<label class="font-weight-bold">Idea or Fact</label>
-				<textarea rows="10" name="idea" id="idea" style="width:100%;"></textarea>
-			<!-- <label for="floatingInput" class="font-weight-bold">Idea or Fact</label> -->
-			</div>
-			<br>
-			<div class="pt-lg-2">
-				<label class="font-weight-bold">Sources</label>
-				<textarea name="sources" id="sources" class="form-control"></textarea>
-				<!-- <label for="floatingInput" class="font-weight-bold">Sources</label> -->
-			</div>
-			<br>
-			<div class="text-center">
-				<button type="submit" class="btn btn-primary btn-lg">Add Idea</button>
-			</div>
-		</form>
+		<!-- <select name="is_framed_filter" id="is_framed_filter">
+			<option value="TRUE">Yes</option>
+			<option value="FALSE">No</option>
+		</select> -->
+		<table class="table table-striped table-bordered table-hover table-responsive-lg" id="ideas_list_display">
+			<thead class="thead-dark">
+				<tr>
+					<th>Index</th>
+					<th>Idea</th>
+					<th>Sources</th>
+					<th>Is Framed?</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in data %}
+					<tr>
+						<td>{{item[0]}}</td>
+						<td>{{item[1]}}</td>
+						<td>{{item[2]}}</td>
+						<td>{{item[3]}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	
 	{% elif session.page == 'display_question' %}
 	<div class="row justify-content-center">
