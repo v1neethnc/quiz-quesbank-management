@@ -26,6 +26,14 @@ def redirect_page():
 def new_record():
 	return render_template('new_record.html')
 
-@views.route("/display-records")
+@views.route("/display-records", methods=['GET', 'POST'])
 def display_records():
-	return render_template('display_records.html', data=query_obj.data_used)
+	data_used = [list(i) for i in query_obj.data_used]
+	if request.method == 'POST':
+		if 'question' in session['page']:
+			q_id = request.form.get('id_val')
+			print(q_id)
+		if 'idea' in session['page']:
+			q_type = request.form.get('idea_operation')
+			print(q_type)
+	return render_template('display_records.html', data=data_used)

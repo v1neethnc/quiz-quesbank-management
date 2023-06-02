@@ -9,10 +9,19 @@
 </script> -->
 
 {% block content %}
+	<script>
+		$(function () {
+			$("body").tooltip({
+				selector: '[data-toggle="tooltip"]',
+				container: 'body'
+			});
+		});
+		  
+	</script>
 	<br>
 	{% if session.page == 'display_idea' %}
 		<div class="row justify-content-center">
-			<h1>Displaying List of Ideas</h1>
+			<h1>Question Ideas</h1>
 		</div>
 		<br>
 		<!-- <select name="is_framed_filter" id="is_framed_filter">
@@ -25,153 +34,108 @@
 					<th>Index</th>
 					<th>Idea</th>
 					<th>Sources</th>
-					<th>Is Framed?</th>
+					<th>Framed?</th>
+					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for item in data %}
-					<tr>
-						<td>{{item[0]}}</td>
-						<td>{{item[1]}}</td>
-						<td>{{item[2]}}</td>
-						<td>{{item[3]}}</td>
-					</tr>
+					<form method="POST">
+						<tr>
+							<td>{{item[0]}}</td>
+							<td data-toggle="tooltip" data-placement="top" title="{{item[4]}}">{{item[1]}}</td>
+							<td>{{item[2]}}</td>
+							<td>{{item[3]}}</td>
+							<td class="align-middle" align="center">
+								<button type="submit" value="more {{item[0]}}" name="idea_operation" class="btn btn-dark btn-sm">More</button>
+							</td>
+							<td class="align-middle" align="center">
+								<button type="submit" value="frame {{item[0]}}" name="idea_operation" class="btn btn-dark btn-sm">Frame</button>
+							</td>
+						</tr>
+					</form>
 				{% endfor %}
 			</tbody>
 		</table>
 	
 	{% elif session.page == 'display_question' %}
 	<div class="row justify-content-center">
-		<h1>Adding a New Question</h1>
+		<h1>Questions Database</h1>
 	</div>
 	<br>
-	<form>
-		<div class="pt-lg-2">
-			<label class="font-weight-bold">Idea or Fact</label>
-			<textarea rows="10" name="idea" id="idea" style="width:100%;"></textarea>
-		<!-- <label for="floatingInput" class="font-weight-bold">Idea or Fact</label> -->
-		</div>
-		<br>
-		<div class="pt-lg-2">
-			<label class="font-weight-bold">Sources</label>
-			<textarea name="sources" id="sources" class="form-control"></textarea>
-			<!-- <label for="floatingInput" class="font-weight-bold">Sources</label> -->
-		</div>
-		<br>
-		<div class="text-center">
-			<button type="submit" class="btn btn-primary btn-lg">Add Idea</button>
-		</div>
-	</form>
+	<table class="table table-striped table-bordered table-hover table-responsive-lg" id="ideas_list_display">
+		<thead class="thead-dark">
+			<tr>
+				<th>Index</th>
+				<th>Question</th>
+				<th>Answer</th>
+				<th>Explanation</th>
+				<th>Idea Index</th>
+				<th>Written On</th>
+				<th>Author</th>
+				<th>Media</th>
+				<th>Used In</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in data %}
+				<form method="POST">
+					<tr>
+						<td class="align-middle">{{item[0]}}</td>
+						<td class="align-middle">{{item[1]}}</td>
+						<td class="align-middle">{{item[2]}}</td>
+						<td class="align-middle">{{item[3]}}</td>
+						<td class="align-middle">{{item[4]}}</td>
+						<td class="align-middle">{{item[5]}}</td>
+						<td class="align-middle">{{item[6]}}</td>
+						<td class="align-middle">{{item[7]}}</td>
+						<td class="align-middle">{{item[8]}}</td>
+						<td class="align-middle">
+							<button type="submit" value="{{item[0]}}" name="id_val" class="btn btn-dark btn-sm">More</button>
+						</td>
+					</tr>
+				</form>
+			{% endfor %}
+		</tbody>
+	</table>
 	
 	{% elif session.page == 'display_quiz' %}
 	<div class="row justify-content-center">
-		<h1>Adding a New Quiz</h1>
+		<h1>List of Quizzes</h1>
 	</div>
 	<br>
-	<form>
-		<div class="row pt-lg-2">
-			<div class="col">
-				<label class="font-weight-bold">Event</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Title</label>
-			</div>
-		</div>
-		<div class="row pt-lg-2">
-			<div class="col">
-				<input type="text" id="event" class="form-control">
-			</div>
-			<div class="col">
-				<input type="text" id="title" class="form-control">
-			</div>
-		</div>
-		<div class="row pt-lg-4">
-			<div class="col">
-				<label class="font-weight-bold">Quizmasters</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Date of Quiz</label>
-			</div>
-		</div>
-		<div class="row pt-lg-2">
-			<div class="col">
-				<input type="text" id="quizmasters" class="form-control">
-			</div>
-			<div class="col">
-				<input type="date" id="event_date" class="form-control">
-			</div>
-		</div>
-		<div class="row pt-lg-4">
-			<div class="col">
-				<label class="font-weight-bold">Number of Questions</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Number of Teams</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Maximum Possible Score</label>
-			</div>
-		</div>
-		<div class="row pt-lg-2">
-			<div class="col">
-				<input type="text" id="questions_count" class="form-control">
-			</div>
-			<div class="col">
-				<input type="text" id="teams_count" class="form-control">
-			</div>
-			<div class="col">
-				<input type="text" id="max_possible_score" class="form-control">
-			</div>
-		</div>
-		<div class="row pt-lg-4">
-			<div class="col">
-				<label class="font-weight-bold">First Place Score</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Second Place Score</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Third Place Score</label>
-			</div>
-		</div>
-		<div class="row pt-lg-2">
-			<div class="col">
-				<input type="text" id="first_place_score" class="form-control">
-			</div>
-			<div class="col">
-				<input type="text" id="second_place_score" class="form-control">
-			</div>
-			<div class="col">
-				<input type="text" id="third_place_score" class="form-control">
-			</div>
-		</div>
-		<div class="row pt-lg-4">
-			<div class="col">
-				<label class="font-weight-bold">Quizmaster Remarks</label>
-			</div>
-			<div class="col">
-				<label class="font-weight-bold">Reception</label>
-			</div>
-		</div>
-		<div class="row pt-lg-2">
-			<div class="col">
-				<textarea name="remarks" id="remarks" class="form-control"></textarea>
-			</div>
-			<div class="col">
-				<select class="custom-select" id="reception_select">
-					<option selected>Choose...</option>
-					<option value="awful">Awful</option>
-					<option value="poor">Poor</option>
-					<option value="mediocre">Mediocre</option>
-					<option value="good">Good</option>
-					<option value="pretty_good">Pretty Good</option>
-				</select>
-			</div>
-		</div>
-		<div class="text-center pt-xxl-4">
-			<button type="submit" class="btn btn-primary btn-lg">Add Quiz</button>
-		</div>
-	</form>
+	<table class="table table-striped table-bordered table-hover table-responsive-lg" id="ideas_list_display">
+		<thead class="thead-dark">
+			<tr>
+				<th>ID</th>
+				<th>Event</th>
+				<th>Title</th>
+				<th>Quizmasters</th>
+				<th>Venue</th>
+				<th>Date</th>
+				<th>Question Count</th>
+				<th>Reception</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in data %}
+				<tr>
+					<td>{{item[0]}}</td>
+					<td>{{item[1]}}</td>
+					<td>{{item[2]}}</td>
+					<td>{{item[3]}}</td>
+					<td>{{item[4]}}</td>
+					<td>{{item[5]}}</td>
+					<td>{{item[6]}}</td>
+					<td>{{item[7]}}</td>
+					<td>{{item[8]}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 	
 	{% elif session.page == 'display_note' %}
 	<h1>Adding a new note</h1>
