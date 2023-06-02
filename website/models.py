@@ -16,4 +16,4 @@ class User(UserMixin):
 		if cursor.rowcount == 1:
 			return User(self.username, self.password)
 		return None
-			
+		
