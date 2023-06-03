@@ -56,7 +56,8 @@
 				{% endfor %}
 			{% endif %}
 		{% endwith %}
-		<div class="container">
+		{% set active_item = active_item|default('home') %}
+		<div class='{{"container-fluid" if active_item == "other" else "container"}}'>
 			{% block content %}
 			{% endblock %}
 		</div>
