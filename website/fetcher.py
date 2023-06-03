@@ -26,10 +26,8 @@ class data_fetcher:
 		command = self.select_query()
 		cursor = self.query_obj.connection.cursor()
 		cursor.execute(command)
-		# print(cursor.rowcount)
 		data = cursor.fetchall()
 		self.data_used = self.data_preprocessor(data)
-		# print(data)
 
 	def data_preprocessor(self, data):
 		if 'idea' in session['page']:
@@ -43,11 +41,15 @@ class data_fetcher:
 			temp = []
 			for line in data:
 				question = line[1][:47] + "..." if len(line[1]) > 50 else line[1]
-				answer = line[2][:47] + "..." if len(line[2]) > 50 else line[2]
-				explanation = line[3][:47] + "..." if len(line[3]) > 50 else line[3]
+				answer = line[2][:22] + "..." if len(line[2]) > 25 else line[2]
+				explanation = line[3][:22] + "..." if len(line[3]) > 25 else line[3]
 				date_val = line[5].strftime("%d-%m-%Y")
 				author = 'Ashwin' if line[6] == 'A' else "Vineeth"
-				tmp = [line[0], question, answer, explanation, line[4], date_val, author, line[7], line[9]]
+				media = line[7][:22] + "..." if len(line[7]) > 25 and line[7] is not None else line[7]
+				ques = line[1].replace("\\n", '\n')
+				ans = line[2].replace("\\n", '\n')
+				expl = line[3].replace("\\n", '\n')
+				tmp = [line[0], question, answer, explanation, line[4], date_val, author, media, line[9], ques, ans, expl]
 				temp.append(tmp)
 			return(temp)
 		if 'quiz' in session['page']:
