@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask import Blueprint, render_template, session, request, redirect, url_for, flash
 from . import query_obj
+from . import helpers
 
 views = Blueprint('views', __name__)
 
@@ -22,8 +23,24 @@ def redirect_page():
 			return redirect(url_for('views.display_records'))
 	return render_template('404.html')
 
-@views.route("/new-record")
+@views.route("/new-record", methods=['GET', 'POST'])
 def new_record():
+	if request.method == 'POST':
+		data_dict = {}
+		print(session['page'])
+		if 'idea' in session['page']:
+			data_dict['idea'] = request.form.get('idea')
+			data_dict['sources'] = request.form.get('sources')
+			if len(data_dict['idea']) != 0:
+				insert_obj = helpers.data_inserter()
+				if insert_obj.insert_record('idea', data_dict):
+					flash("Idea inserted into the database.", category="success")
+				else:
+					flash("Idea not inserted into the database.", category="error")
+				return redirect(url_for('views.home'))
+			else:
+				flash("Fill the Idea or Fact form to insert data into the database.", category="error")
+				return render_template('new_record.html')
 	return render_template('new_record.html')
 
 @views.route("/display-records", methods=['GET', 'POST'])
