@@ -41,6 +41,19 @@ def new_record():
 			else:
 				flash("Fill the Idea or Fact form to insert data into the database.", category="error")
 				return render_template('new_record.html')
+		elif 'note' in session['page']:
+			data_dict['note'] = request.form.get('note')
+			if len(data_dict['note']) != 0:
+				insert_obj = helpers.data_inserter()
+				if insert_obj.insert_record('note', data_dict):
+					flash("Note inserted into the database.", category="success")
+				else:
+					flash("Note not inserted into the database.", category="error")
+				return redirect(url_for('views.home'))
+			else:
+				flash("Fill the Note form to insert data into the database.", category="error")
+				return render_template('new_record.html')
+			
 	return render_template('new_record.html')
 
 @views.route("/display-records", methods=['GET', 'POST'])
@@ -54,3 +67,7 @@ def display_records():
 			q_type = request.form.get('idea_operation')
 			print(q_type)
 	return render_template('display_records.html', data=data_used)
+
+@views.route("/test")
+def test_val():
+	return render_template("test.html")

@@ -163,14 +163,14 @@
 	{% elif session.page == 'new_note' %}
 	<h1>Adding a new note</h1>
 	<br>
-	<form>
+	<form method="POST">
 		<div class="row pt-lg-2">
 			<div class="col">
 				<textarea rows="10" name="note" id="note" style="width:100%;" class="form-control"></textarea>
 			</div>
 		</div>
 		<div class="text-center pt-xxl-4">
-			<button type="submit" class="btn btn-primary btn-lg">Add Quiz</button>
+			<button type="submit" class="btn btn-primary btn-lg">Add Note</button>
 		</div>
 	</form>
 	
