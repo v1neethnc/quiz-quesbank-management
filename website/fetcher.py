@@ -42,7 +42,7 @@ class data_fetcher:
 		temp = []
 		if 'idea' in session['page']:
 			for line in data:
-				idea, sources = self.length_reducer([line[1], line[2]], [50, 10])
+				idea, sources = self.length_reducer([line[1], line[2]], [70, 30])
 				tmp = [line[0], idea, sources, line[3], line[1], line[2]]
 				temp.append(tmp)
 			
@@ -61,7 +61,14 @@ class data_fetcher:
 			for line in data:
 				title, reception = self.length_reducer([line[2], line[13]], [30, 25])
 				date_val = line[5].strftime("%d-%m-%Y")
-				tmp = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception]
+				tmp = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
 				temp.append(tmp)
 		
+		if 'note' in session['page']:
+			for line in data:
+				note = self.length_reducer([line[1]], [75])
+				create_date = line[2].strftime("%d-%m-%Y")
+				update_date = line[3].strftime("%d-%m-%Y")
+				tmp = [note[0], create_date, update_date, line[1]]
+				temp.append(tmp)
 		return temp
