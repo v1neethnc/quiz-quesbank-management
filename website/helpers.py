@@ -15,11 +15,10 @@ class data_inserter():
 				insert_command = 'insert into question_ideas (idea_index, idea_fact, sources, is_framed) values (%s, %s, %s, "FALSE")'
 				cursor.execute(insert_command, (new_index, data_dict['idea'], data_dict['sources']))
 				mysql_obj.connection.commit()
-				return True
 			elif record_type == 'note':
 				insert_command = 'insert into notes (notes_text, record_create_date, record_update_date) values (%s, %s, %s)'
 				cursor.execute(insert_command, (data_dict['note'], date.today(), date.today()))
 				mysql_obj.connection.commit()
-				return True
+			return True
 		except:
 			return False
