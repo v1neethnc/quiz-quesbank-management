@@ -10,12 +10,14 @@ def create_app():
 	
 	app = Flask(__name__)
 	
+	# Read data from the config file
 	config = ConfigParser()
 	config.read('config.cfg')
 	for i in ['SECRET_KEY', 'MYSQL_HOST', 'MYSQL_USER', 'MYSQL_PASSWORD', 'MYSQL_DB']:
 		app.config[i] = config['init_file'][i]
 	mysql_obj.init_app(app)
 
+	# Register different paths
 	from .auth import auth
 	from .views import views
 	app.register_blueprint(auth, url_prefix='/')
