@@ -25,7 +25,11 @@ class data_fetcher:
 			elif val == 'note':
 				clause = ' order by record_update_date asc'
 			return f"select * from {table_map[val]}{clause}"
-		return f"select * from questions_data"
+		return """select 
+		qd.question_index, qd.question_text, qd.answer_text, qd.answer_explanation, qd.idea_index, qcl.cnm, qd.question_create_date, qd.owner, qd.used_in
+		from questions_data qd inner join question_categories_list qcl 
+		on qcl.qid = qd.question_index
+		order by qd.question_index"""
 
 	def data_fetcher(self):
 		command = self.select_query()
@@ -69,13 +73,13 @@ class data_fetcher:
 			
 		if 'question' in session['page']:
 			for line in data:
-				question, answer, explanation, media = self.length_reducer([line[1], line[2], line[3], line[7]], [50, 25, 25, 25])
-				date_val = line[5].strftime("%d-%m-%Y")
-				author = self.config['names']['v1'] if line[6] == 'A' else self.config['names']['v2']
+				question, answer, explanation, categories, quizzes = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ", "), line[8]], [45, 20, 25, 25, 10])
+				date_val = line[6].strftime("%d-%m-%Y")
+				author = self.config['names']['v1'] if line[7] == 'A' else self.config['names']['v2']
 				ques = line[1].replace("\\n", '\n')
 				ans = line[2].replace("\\n", '\n')
 				expl = line[3].replace("\\n", '\n')
-				tmp = [line[0], question, answer, explanation, line[4], date_val, author, media, line[9], ques, ans, expl]
+				tmp = [line[0], question, answer, explanation, line[4], date_val, author, categories, quizzes, ques, ans, expl, line[8], line[5].replace(',', ", ")]
 				temp.append(tmp)
 
 		if 'quiz' in session['page']:

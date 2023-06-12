@@ -70,6 +70,7 @@ def display_records():
 		quizzes = query_obj.quizzes_fetcher()
 		authors = query_obj.authors_fetcher()
 		quizzes.append("N/A")
+		authors.append("All")
 	if request.method == 'POST':
 		if 'question' in session['page']:
 			q_id = request.form.get('id_val')
@@ -77,7 +78,6 @@ def display_records():
 		if 'idea' in session['page']:
 			q_type = request.form.get('idea_operation')
 			print(q_type)
-
 	return render_template('display_records.html', data=data_used, categories=categories, quizzes=quizzes, authors=authors)
 
 @views.route("/test")
