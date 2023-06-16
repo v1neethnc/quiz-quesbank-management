@@ -26,7 +26,10 @@ def login():
 
 @auth.route('logout')
 def logout():
-	session.pop('is_login', None)
-	session.pop('username', None)
-	session.pop('page', None)
+	keys = [i for i in session.keys()]
+	for k in keys:
+		session.pop(k, None)
+	# session.pop('is_login', None)
+	# session.pop('username', None)
+	# session.pop('page', None)
 	return redirect(url_for('auth.login'))

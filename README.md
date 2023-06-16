@@ -2,7 +2,7 @@
 
 This is a test project to manage the questions that my friend and I write for the quizzes we do. The initial working version is going to be simpler and easier in its scope, it will be aimed only at managing the questions and associate them with the ideas.
 
-## Current Situation
+## Why Does This Have To Exist?
 
 Everything is basically being shuffled between a Word document and an Excel spreadsheet. There's a need to change that using a website that updates the database but also gives a interface that acts both as the Word document and automatically adds the question to the database. This will make referencing easy as well, with the questions becoming easier to fetch and eliminating the need for Excel and Word.
 
@@ -15,7 +15,6 @@ The following are the tables in the database:
 * ```question_ideas```: a table to store the list of ideas
 * ```questions_data```: this contains the list of questions. Probably the most expansive of the lot.
 * ```question_versions```: old versions of questions. Ideally this specific data is not very important but it is a nice thing to have just in case. It's not a nice to have, this is to be implemented for sure.
-* ```question_categories```: categories and subcategories associated with each question.
 * ```categories```: only categories stored and corresponding unique IDs.
 * ```subcategories```: subcategories with unique IDs and associated with a category.
 * ```quizzes```: table to store information about the quizzes conducted.
@@ -48,11 +47,6 @@ Cell information mandatory unless specified otherwise.
 * ```version_number```: \[```int```\] the incarnation of the question in the table.
 * ```record_create_date```: \[```timestamp```\] the date of the creation of the record.
 * ```record_updation_date```: \[```timestamp```\] the last updated timestamp of the record.
-
-#### ```question_categories```
-* ```question_id```: \[```int```\] unique identifier for the question, this has to be tied into a corresponding question in the ```questions_data``` table.
-* ```category_id```: \[```int```\] unique index to identify the category, this has to be tied into a corresponding category in the ```categories``` table.
-* ```subcategory_id```: \[```int```\] unique index to identify the subcategory, this has to be tied into a corresponding subcategory in the ```subcategories``` table.
 
 #### ```question_versions```
 * ```question_index```: \[```int```\] unique identifier for the question, this has to be tied into a corresponding question in the ```questions_data``` table.
@@ -104,11 +98,9 @@ Cell information mandatory unless specified otherwise.
 
 ![Relational diagram of the database](relational_diagram.png)
 
-ER diagram created using [dbdiagram.io](https://dbdiagram.io).
-
 The foreign keys and the relation types are also specified.
 
-## Different Pages
+## List of Pages
 
 The following pages are needed:
 * **Login**: The login page is the landing page.
@@ -127,3 +119,52 @@ The following pages are needed:
 	* Update a question
 	* Update quiz details
 	* Update a note 
+
+## Pages Explained
+
+### Display Ideas
+The Ideas Display page is the first step in the process of building a quiz. Ideas worth looking into are listed in a single page, with buttons to edit, delete, or view the idea in a separate page to be able to access the full text of the idea and the links or information present in the Sources section. When opened in a separate page, the full details are displayed. If an idea has a question already associated to it, a button to view the question will be present. If an idea is not used in a question, then the same button will direct the user to the page to write a new question. The Display Ideas page also has a radio button filter on the Is Framed? column to list questions that are already used in a question, or not used in a question, or both. The Search textbox looks for entered text in the Idea and the Sources column and filters the table to display rows that contain the entered text.
+
+The following columns are present:
+* Idea Index
+* Idea Text
+* Sources
+* Is Framed?
+* Author (nice to have)
+
+### Display Questions
+All the display pages come from the same background, and therefore the pages are all similar in the functionalities and the way they are designed. The Display Questions page contains multiple columns, and the same three buttons as in the Display Ideas page (edit, delete, pop out). The pop out button displays all the relevant information about the question in a single page, with a button to edit. On edit, the website asks the user if they want to save a version of this question in the database. If yes, then the pre-edit version will be pushed into the database into a history table and the new version will become the official, current version. The older versions will be displayed in a tabular format in the same page.
+
+The following columns are present:
+* Question Index
+* Question Text
+* Answer
+* Explanation
+* Idea Index
+* Date Framed
+* Author
+* Categories
+* Used In
+
+### Display Quizzes
+The Display Quizzes page contains the list of quizzes that we have contributed to, each quiz identified by a unique ID derived from the date of the quiz. These IDs are used in associating a question to one or more quizzes. The three buttons as present in the other display pages are present here too.
+
+The following columns are present:
+* Quiz ID
+* Event
+* Title
+* Quizmasters
+* Venue
+* Date of Quiz
+* Question Count
+* Reception
+* Remarks
+
+### Display Notes
+The Display Notes page contains any notes that may have been made while using the site. Each note has create and update timestamps associated with it, with also the name of the author and the note text. The three buttons as present in the other display pages are present here too.
+
+The following columns are present:
+* Note
+* Created Timestamp
+* Updated Timestamp
+* Author (nice to have)

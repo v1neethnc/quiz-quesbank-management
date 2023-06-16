@@ -108,7 +108,7 @@
 	<br>
 	<div class="row pt-sm-3">
 		<div class="col-1">
-			<div class="dropdown">
+			<div class="dropdown" data-bs-theme="dark">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Categories
 				</button>
@@ -186,7 +186,7 @@
 		<tbody id="records_body">
 			<form method="POST">
 					{% for item in data %}
-						<tr data="{{item[9]+item[10]+item[11]}}">
+						<tr data="{{item[6]+item[9]+item[10]+item[11]}}">
 							<td class="align-middle">{{item[0]}}</td>
 							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[9]}}">{{item[1]}}</td>
 							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[10]}}">{{item[2]}}</td>
