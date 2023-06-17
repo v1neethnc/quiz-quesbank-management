@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Display Records{% endblock %}
 {% set active_item = 'other' if session.page == 'display_question' else 'home' %}
 {% block content %}
 	<script>
-		$(function () {
+		$(document).ready(function () {
 			$("body").tooltip({
 				selector: '[data-toggle="tooltip"]',
-				container: 'body'
+				container: 'body',
+				html: 'true',
+				placement: 'top'
 			});
 		});
 		$(document).ready(function(){
@@ -27,18 +29,39 @@
 				$(trs).hide();
 				
 				if(auto == 'inactive'){
-				} else {
-				  if(auto != '' && auto != 'inactive'){
-					  trs = $(trs).find("[id='is_framed']"+':contains('+auto+')').parent();
-				  }
+				}
+				else {
+					if(auto != '' && auto != 'inactive'){
+						trs = $(trs).find("[id='is_framed']"+':contains('+auto+')').parent();
+				  	}
 				}
 				$(trs).show();
 			});
 		});
-
+		$(document).ready(function(){
+			$('input[name="authors"]').change(function() {
+				var firstRow = 'Index'
+				//var auto = $('input[name="authors"]:checked').prop('value') || '';
+				var val = [];
+				$(':checkbox:checked').each(function(i){
+					val[i] = $(this).val()
+				});
+				var trs = $('tr:not(:first)');
+				$(trs).hide();
+				if(!val.includes('All')){
+					for(let i=0; i<val.length; i++) {
+						if(val[i] != 'All') {
+							//alert(val[i]);
+							trs = $(trs).find("[id='author']"+':contains('+val[i]+')').parent();
+						}
+					}
+				}
+				else {
+				}
+			});
+		});
 	</script>
 	<br>
-
 	{% if session.page == 'display_idea' %}
 		<div class="row justify-content-center">
 			<h1>Question Ideas</h1>
@@ -78,8 +101,8 @@
 				{% for item in data %}
 						<tr data="{{item[4]}}">
 							<td class="col-md-1 align-middle">{{item[0]}}</td>
-							<td class="col-md-6 align-middle" data-toggle="tooltip" data-placement="top" title="{{item[4]}}">{{item[1]}}</td>
-							<td class="col-md-4 align-middle" data-toggle="tooltip" data-placement="top" title="{{item[5]}}">{{item[2]}}</td>
+							<td class="col-md-6 align-middle" data-toggle="tooltip" title="{{item[4]}}">{{item[1]}}</td>
+							<td class="col-md-4 align-middle" data-toggle="tooltip" title="{{item[5]}}">{{item[2]}}</td>
 							<td class="col-md-1 align-middle" id="is_framed">{{item[3]}}</td>
 							<td class="align-middle col-md-1" align="center">
 								<button type="submit" value="edit {{item[0]}}" name="idea_operation" class="btn btn-sm">
@@ -108,7 +131,7 @@
 	<br>
 	<div class="row pt-sm-3">
 		<div class="col-1">
-			<div class="dropdown" data-bs-theme="dark">
+			<!-- <div class="dropdown" data-bs-theme="dark">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Categories
 				</button>
@@ -118,12 +141,12 @@
 							<input class="form-check-input" type="checkbox" value="{{cat}}" checked>
 							<label class="form-check-label">{{cat}}</label>
 						</button>
-						{% endfor %}
-					</div>
+					{% endfor %}
 				</div>
+			</div> -->
 		</div>
 		<div class="col-1">
-			<div class="dropdown">
+			<!-- <div class="dropdown">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Quizzes
 				</button>
@@ -139,26 +162,24 @@
 						</button>
 						{% endfor %}
 					</div>
-				</div>
+				</div> -->
 		</div>
 		<div class="col-1">
 			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="authors_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Authors
 				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<div class="dropdown-menu" aria-labelledby="authors_dropdown">
 					{% for auth in authors %}
-						<button class="dropdown-item" type="button">
-							{% if auth == "All" %}
-								<input class="form-check-input" type="checkbox" value="{{auth}}" checked>
-							{% else %}
-								<input class="form-check-input" type="checkbox" value="{{auth}}">
-							{% endif %}
-							<label class="form-check-label">{{auth}}</label>
-						</button>
-						{% endfor %}
-					</div>
+						{% if auth == "All" %}
+							<input class="form-check-input" name="authors" type="checkbox" value="{{auth}}" checked>
+						{% else %}
+							<input class="form-check-input" name="authors" type="checkbox" value="{{auth}}">
+						{% endif %}
+						<label class="form-check-label">{{auth}}</label>
+					{% endfor %}
 				</div>
+			</div>
 		</div>
 		<div class="col"></div>
 		<div class="col">
@@ -188,14 +209,14 @@
 					{% for item in data %}
 						<tr data="{{item[6]+item[9]+item[10]+item[11]}}">
 							<td class="align-middle">{{item[0]}}</td>
-							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[9]}}">{{item[1]}}</td>
-							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[10]}}">{{item[2]}}</td>
-							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[11]}}">{{item[3]}}</td>
+							<td class="align-middle" data-toggle="tooltip" title="{{item[9]}}">{{item[1]}}</td>
+							<td class="align-middle" data-toggle="tooltip" title="{{item[10]}}">{{item[2]}}</td>
+							<td class="align-middle" data-toggle="tooltip" title="{{item[11]}}">{{item[3]}}</td>
 							<td class="align-middle">{{item[4]}}</td>
 							<td class="align-middle">{{item[5]}}</td>
-							<td class="align-middle">{{item[6]}}</td>
-							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[13]}}">{{item[7]}}</td>
-							<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[12]}}">{{item[8]}}</td>
+							<td class="align-middle" name="author">{{item[6]}}</td>
+							<td class="align-middle" data-toggle="tooltip" title="{{item[13]}}">{{item[7]}}</td>
+							<td class="align-middle" data-toggle="tooltip" title="{{item[12]}}">{{item[8]}}</td>
 							<td class="align-middle" align="center">
 								<button type="submit" value="edit {{item[0]}}" name="edit_idea" class="btn btn-sm">
 									<i class="fa-regular fa-pen-to-square fa-lg"></i>
@@ -240,13 +261,13 @@
 				<tr>
 					<td class="align-middle">{{item[0]}}</td>
 					<td class="align-middle">{{item[1]}}</td>
-					<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[9]}}">{{item[2]}}</td>
+					<td class="align-middle" data-toggle="tooltip" title="{{item[9]}}">{{item[2]}}</td>
 					<td class="align-middle">{{item[3]}}</td>
 					<td class="align-middle">{{item[4]}}</td>
 					<td class="align-middle">{{item[5]}}</td>
 					<td class="align-middle">{{item[6]}}</td>
 					<td class="align-middle">{{item[7]}}</td>
-					<td class="align-middle" data-toggle="tooltip" data-placement="top" title="{{item[10]}}">{{item[8]}}</td>
+					<td class="align-middle" data-toggle="tooltip" title="{{item[10]}}">{{item[8]}}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -270,7 +291,7 @@
 			{% for item in data %}
 				<form method="POST">
 					<tr>
-						<td class="col-md-6 align-middle" data-toggle="tooltip" data-placement="top" title="{{item[3]}}">{{item[0]}}</td>
+						<td class="col-md-6 align-middle" data-toggle="tooltip" title="{{item[3]}}">{{item[0]}}</td>
 						<td class="col-md-1 align-middle">{{item[1]}}</td>
 						<td class="col-md-1 align-middle">{{item[2]}}</td>
 						<td class="align-middle col-md-1" align="center">
