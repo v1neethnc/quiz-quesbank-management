@@ -14,21 +14,15 @@ def login():
 		cursor.execute(command, (username, password))
 
 		if cursor.rowcount == 1:
-			flash('Logged in, I suppose', category='success')
+			flash("Logged in, I suppose", category='success')
 			session['is_login'] = True
 			session['username'] = username
 			session['page'] = 'home'
 			return redirect(url_for('views.home'))
 		else:
-<<<<<<< HEAD
-			flash('Incorrect credentials', category='error')
-
-	return render_template('login.html')
-=======
 			flash("Incorrect credentials", category='error')
 
 	return render_template("login.html")
->>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 
 @auth.route('logout')
 def logout():
