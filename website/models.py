@@ -2,7 +2,6 @@ from flask_login import UserMixin
 from . import mysql_obj
 
 class User(UserMixin):
-    
 	def __init__(self, username, password) -> None:
 		"""
 		The username and the MD5 hash of the password are needed.
