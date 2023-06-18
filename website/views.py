@@ -4,15 +4,22 @@ from . import helpers
 
 views = Blueprint('views', __name__)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 # Home page on successful login
 @views.route('/home', methods=['GET', 'POST'])
 def home():
 	# Login updates the session variable
 	if 'is_login' not in session:
 		return render_template('404.html')
+<<<<<<< HEAD
 	return render_template('home.html')
 
+=======
+	return render_template("home.html")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 
 # Temporary route that redirects to a specific set of pages
 @views.route('redirect-page', methods=['GET'])
@@ -36,9 +43,14 @@ def redirect_page():
 	
 	return render_template('404.html')
 
+<<<<<<< HEAD
 
 # Route for pages to enter a new record into the database
 @views.route('/new-record', methods=['GET', 'POST'])
+=======
+# Route for pages to enter a new record into the database
+@views.route("/new-record", methods=['GET', 'POST'])
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 def new_record():
 	# Check if the user is logged in
 	if 'is_login' not in session:
@@ -55,17 +67,30 @@ def new_record():
 			data_dict['idea'] = request.form.get('idea')
 			data_dict['sources'] = request.form.get('sources')
 			if len(data_dict['idea']) != 0:
+<<<<<<< HEAD
 				insert_obj = helpers.DataInserter()
 				# Successful or failure message flashing
 				if insert_obj.insert_record('idea', data_dict):
 					flash('Idea inserted into the database.', category='success')
 				else:
 					flash('Idea not inserted into the database.', category='error')
+=======
+				insert_obj = helpers.data_inserter()
+				# Successful or failure message flashing
+				if insert_obj.insert_record('idea', data_dict):
+					flash("Idea inserted into the database.", category="success")
+				else:
+					flash("Idea not inserted into the database.", category="error")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 				# Regardless of success or failure, go to the home page
 				return redirect(url_for('views.home'))
 			# If the idea field is null, then flash an error message and stay on the new record page
 			else:
+<<<<<<< HEAD
 				flash('Fill the Idea or Fact form to insert data into the database.', category='error')
+=======
+				flash("Fill the Idea or Fact form to insert data into the database.", category="error")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 				return render_template('new_record.html')
 		
 		# Entering new note into the database
@@ -77,6 +102,7 @@ def new_record():
 				insert_obj = helpers.data_inserter()
 				# Flash a message based on the result of the insertion
 				if insert_obj.insert_record('note', data_dict):
+<<<<<<< HEAD
 					flash('Note inserted into the database.', category='success')
 				else:
 					flash('Note not inserted into the database.', category='error')
@@ -84,6 +110,15 @@ def new_record():
 			else:
 				# If the note is empty then prompt an error message and stay on the same page
 				flash('Fill the Note form to insert data into the database.', category='error')
+=======
+					flash("Note inserted into the database.", category="success")
+				else:
+					flash("Note not inserted into the database.", category="error")
+				return redirect(url_for('views.home'))
+			else:
+				# If the note is empty then prompt an error message and stay on the same page
+				flash("Fill the Note form to insert data into the database.", category="error")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 				return render_template('new_record.html')
 			
 	return render_template('new_record.html')
@@ -106,8 +141,13 @@ def display_records():
 		categories = query_obj.category_fetcher()
 		quizzes = query_obj.quizzes_fetcher()
 		authors = query_obj.authors_fetcher()
+<<<<<<< HEAD
 		quizzes.append('N/A')
 		authors.append('All')
+=======
+		quizzes.append("N/A")
+		authors.append("All")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 
 	# If any of the three buttons are clicked
 	if request.method == 'POST':
@@ -130,9 +170,14 @@ def display_records():
 	# Default display records template
 	return render_template('display_records.html', data=data_used, categories=categories, quizzes=quizzes, authors=authors)
 
+<<<<<<< HEAD
 
 # Route to the single record display page
 @views.route('/single-record-display')
+=======
+# Route to the single record display page
+@views.route("/single-record-display")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 def single_record_display():
 	# Check if the user is logged in
 	if 'is_login' not in session:
@@ -142,13 +187,23 @@ def single_record_display():
 	data = session['data']
 
 	# Render the single record display page with the data from the session variable
+<<<<<<< HEAD
 	return render_template('single_record_display.html', data=data)
 
 
 @views.route('/test', methods=['GET'])
+=======
+	return render_template("single_record_display.html", data=data)
+
+@views.route("/test", methods=['GET'])
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 def test_val():
 	if 'is_login' in session:
 		data = request.args['data']
 		print(data)
+<<<<<<< HEAD
 		return render_template('test.html')
+=======
+		return render_template("test.html")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 	return render_template('404.html')

@@ -20,9 +20,15 @@ def login():
 			session['page'] = 'home'
 			return redirect(url_for('views.home'))
 		else:
+<<<<<<< HEAD
 			flash('Incorrect credentials', category='error')
 
 	return render_template('login.html')
+=======
+			flash("Incorrect credentials", category='error')
+
+	return render_template("login.html")
+>>>>>>> 35a8eb6418e820e1fb707cfecb8ca2d17463c442
 
 @auth.route('logout')
 def logout():
