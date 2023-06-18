@@ -1,8 +1,7 @@
 from . import mysql_obj
 from datetime import date
 
-class data_inserter():
-	
+class DataInserter():	
 	def __init__(self):
 		self.query_obj = mysql_obj
 

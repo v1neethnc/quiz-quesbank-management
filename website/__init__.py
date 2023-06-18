@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_mysqldb import MySQL
 from configparser import ConfigParser
-from website.fetcher import data_fetcher
+from website.fetcher import DataFetcher
 
 mysql_obj = MySQL()
-query_obj = data_fetcher(mysql_obj)
+query_obj = DataFetcher(mysql_obj)
 
 def create_app():
 	

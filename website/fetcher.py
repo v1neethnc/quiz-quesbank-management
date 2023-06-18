@@ -1,8 +1,7 @@
 from flask import session
 from configparser import ConfigParser
 
-class data_fetcher:
-    
+class DataFetcher:
 	def __init__(self, sql_obj):
 		"""
 		The attributes are as follows:
@@ -121,13 +120,13 @@ class data_fetcher:
 			# The order of data is:
 			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
 			for line in data:
-				question, answer, explanation, categories, quizzes = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ", "), line[8]], [45, 20, 25, 25, 10])
-				date_val = line[6].strftime("%d-%m-%Y")
+				question, answer, explanation, categories, quizzes = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ', '), line[8]], [45, 20, 25, 25, 10])
+				date_val = line[6].strftime('%d-%m-%Y')
 				author = self.config['names']['v1'] if line[7] == 'A' else self.config['names']['v2']
-				ques = line[1].replace("\\n", '\n')
-				ans = line[2].replace("\\n", '\n')
-				expl = line[3].replace("\\n", '\n')
-				line_to_display = [line[0], question, answer, explanation, line[4], date_val, author, categories, quizzes, ques, ans, expl, line[8], line[5].replace(',', ", ")]
+				ques = line[1].replace('\\n', '\n')
+				ans = line[2].replace('\\n', '\n')
+				expl = line[3].replace('\\n', '\n')
+				line_to_display = [line[0], question, answer, explanation, line[4], date_val, author, categories, quizzes, ques, ans, expl, line[8], line[5].replace(',', ', ')]
 				data_to_display.append(line_to_display)
 
 		# Display quizzes
@@ -136,7 +135,7 @@ class data_fetcher:
 			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			for line in data:
 				title, reception = self.length_reducer([line[2], line[13]], [30, 25])
-				date_val = line[5].strftime("%d-%m-%Y")
+				date_val = line[5].strftime('%d-%m-%Y')
 				line_to_display = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
 				data_to_display.append(line_to_display)
 
@@ -146,8 +145,8 @@ class data_fetcher:
 			# r_note, create date, last updated date, f_note
 			for line in data:
 				note = self.length_reducer([line[1]], [75])
-				create_date = line[2].strftime("%d-%m-%Y")
-				update_date = line[3].strftime("%d-%m-%Y")
+				create_date = line[2].strftime('%d-%m-%Y')
+				update_date = line[3].strftime('%d-%m-%Y')
 				line_to_display = [note[0], create_date, update_date, line[1]]
 				data_to_display.append(line_to_display)
 		
