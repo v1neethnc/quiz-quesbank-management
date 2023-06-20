@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for, flash
 from . import query_obj
-from . import helpers
+from .helpers import DataInserter
+from .operations import operations
 
 views = Blueprint('views', __name__)
 
@@ -52,7 +53,7 @@ def new_record():
 			data_dict['idea'] = request.form.get('idea')
 			data_dict['sources'] = request.form.get('sources')
 			if len(data_dict['idea']) != 0:
-				insert_obj = helpers.data_inserter()
+				insert_obj = DataInserter()
 				# Successful or failure message flashing
 				if insert_obj.insert_record('idea', data_dict):
 					flash("Idea inserted into the database.", category="success")
@@ -71,7 +72,7 @@ def new_record():
 			data_dict['note'] = request.form.get('note')
 			if len(data_dict['note']) != 0:
 				# If not null, then run the insert command
-				insert_obj = helpers.data_inserter()
+				insert_obj = DataInserter()
 				# Flash a message based on the result of the insertion
 				if insert_obj.insert_record('note', data_dict):
 					flash("Note inserted into the database.", category="success")
@@ -122,27 +123,25 @@ def display_records():
 				session['page'] = 'single_idea'
 				session['data'] = data_used[index]
 				# Redirect to the single record display function
-				return redirect(url_for('views.single_record_display'))
+				return redirect(url_for('operations.single_record_display'))
 	# Default display records template
 	return render_template('display_records.html', data=data_used, categories=categories, quizzes=quizzes, authors=authors)
 
-# Route to the single record display page
-@views.route("/single-record-display")
-def single_record_display():
-	# Check if the user is logged in
-	if 'is_login' not in session:
-		return render_template('404.html')
+# # Route to the single record display page
+# @views.route("/single-record-display")
+# def single_record_display():
+# 	# Check if the user is logged in
+# 	if 'is_login' not in session:
+# 		return render_template('404.html')
 	
-	# Fetch the session variables
-	data = session['data']
+# 	# Fetch the session variables
+# 	data = session['data']
 
-	# Render the single record display page with the data from the session variable
-	return render_template("single_record_display.html", data=data)
+# 	# Render the single record display page with the data from the session variable
+# 	return render_template("single_record_display.html", data=data)
 
 @views.route("/test", methods=['GET'])
 def test_val():
 	if 'is_login' in session:
-		data = request.args['data']
-		print(data)
 		return render_template("test.html")
 	return render_template('404.html')

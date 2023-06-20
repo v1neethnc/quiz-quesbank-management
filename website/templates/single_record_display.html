@@ -6,14 +6,70 @@
 	{% if session.page == 'single_idea' %}
 		<br>
 		<div class="row justify-content-center">
-			<h1>Record of Idea: {{data[0]}}</h1>
+			<h1>Displaying Record of Idea</h1>
 		</div>
-		<div>
-			{{data[4]}}
+		<br><br>
+		<div class="form-row align-items-center">
+			<div class="row">
+				<div class="col">
+					<label>Index of Idea</label>
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<div class="row pt-lg-2">
+				<div class="col">
+					<input class="form-control" type="text" value="{{data[0]}}" readonly>
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<br><br>
+			<div class="row pt-lg-2">
+				<div class="col">
+					<label>Idea/Fact</label>
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<div class="row pt-lg-2">
+				<div class="col">
+					<textarea class="form-control" rows="5" readonly>{{data[4]}}</textarea>
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<br><br>
+			<div class="row pt-lg-2">
+				<div class="col">
+					<label>Sources</label>
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<div class="row pt-lg-2">
+				<div class="col">
+					<textarea class="form-control" rows="5" readonly>{{data[2]}}</textarea>
+				</div>
+				<div class="col-3"></div>
+			</div>
+			<br><br>
+			<form method="POST">
+				<div class="row pt-lg-2">
+					<div class="col-2"></div>
+					<div class="col-2">
+						<button type="button" class="btn btn-secondary" value="edit {{data[0]}}">Edit Idea</button>
+					</div>
+					<div class="col-2">
+						<button type="button" class="btn btn-danger" value="delete {{data[0]}}">Delete Idea</button>
+					</div>
+					<div class="col-2">
+						{% if data[3] == 'TRUE' %}
+							<button type="button" class="btn btn-info" value="view {{data[0]}}">View Question</button>
+						{% else %}
+							<button type="button" class="btn btn-info" value="create {{data[0]}}">Create Question</button>
+						{% endif %}
+					</div>
+				</div>
+			</form>
 		</div>
-		<div>
-			{{data[2]}}
-		</div>
+
+		
 	{% endif %}
 
 {% endblock %}

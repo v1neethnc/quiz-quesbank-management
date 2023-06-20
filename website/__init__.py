@@ -20,7 +20,8 @@ def create_app():
 	# Register different paths
 	from .auth import auth
 	from .views import views
+	from .operations import operations
 	app.register_blueprint(auth, url_prefix='/')
 	app.register_blueprint(views, url_prefix='/')
-	
+	app.register_blueprint(operations, url_prefix='/')
 	return app

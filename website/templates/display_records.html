@@ -14,52 +14,47 @@
 		});
 		$(document).ready(function(){
 			$("#record_search").on("keyup", function() {
-			  var value = $(this).val().toLowerCase();
-			  $("#records_body tr").filter(function() {
-				$(this).toggle($(this).attr('data').toLowerCase().indexOf(value) > -1)
-			  });
+				var value = $(this).val().toLowerCase();
+				var trs = $('tr:not(:first)');
+				$(trs).hide();
+				$(trs).filter(function() {
+					$(this).toggle($(this).attr('data').toLowerCase().indexOf(value) > -1)
+			  	});
+				var text_replace = document.getElementById('length_display').innerText;
+				var new_text = $('tr:visible').length - 1;
+				document.getElementById('length_display').innerText = text_replace.replace(/\d+/, new_text);
 			});
 		});
 		$(document).ready(function(){
-			$('input[type="radio"]').change(function () {
+			$('input[name="is_framed"]').change(function () {
 				var firstRow = 'name';
-				var auto = $('input[name="auto"]:checked').prop('value') || '';
-				
+				var is_framed = $('input[name="is_framed"]:checked').prop('value') || '';
 				var trs = $('tr:not(:first)');
-				$(trs).hide();
-				
-				if(auto == 'inactive'){
+				$(trs).hide();	
+				if(is_framed == 'inactive'){
 				}
 				else {
-					if(auto != '' && auto != 'inactive'){
-						trs = $(trs).find("[id='is_framed']"+':contains('+auto+')').parent();
+					if(is_framed != '' && is_framed != 'inactive'){
+						trs = $(trs).find("[id='is_framed']"+':contains('+is_framed+')').parent();
 				  	}
 				}
 				$(trs).show();
+				var text_replace = document.getElementById('length_display').innerText;
+				var new_text = $('tr:visible').length - 1;
+				document.getElementById('length_display').innerText = text_replace.replace(/\d+/, new_text);
 			});
 		});
-		$(document).ready(function(){
-			$('input[name="authors"]').change(function() {
-				var firstRow = 'Index'
-				//var auto = $('input[name="authors"]:checked').prop('value') || '';
-				var val = [];
-				$(':checkbox:checked').each(function(i){
-					val[i] = $(this).val()
-				});
-				var trs = $('tr:not(:first)');
-				$(trs).hide();
-				if(!val.includes('All')){
-					for(let i=0; i<val.length; i++) {
-						if(val[i] != 'All') {
-							//alert(val[i]);
-							trs = $(trs).find("[id='author']"+':contains('+val[i]+')').parent();
-						}
-					}
-				}
-				else {
-				}
-			});
-		});
+		$(document).on("click", "#deletebutton", function () {
+			var isFramedVal = $(this).data('id');
+			isFramedVal = isFramedVal.split(" ");
+			var res = "Are you sure you want to delete this entry?"
+			if(isFramedVal[0] == 'TRUE'){
+			  res = res + ' The question associated with it will also be deleted but stored in a backup.';
+			}
+			document.getElementById('bodystuff').innerText = res;
+	   });
+
+	
 	</script>
 	<br>
 	{% if session.page == 'display_idea' %}
@@ -68,15 +63,18 @@
 		</div>
 		<br>
 		<div class="row">
+			<div class="col my-auto">
+				<label id="length_display">Displaying {{data|length}} records.</label>
+			</div>
 			<div class="col">
 				<label class="btn btn-secondary active">
-					<input type="radio" name="auto" value="TRUE" /> Framed
+					<input type="radio" name="is_framed" value="TRUE" /> Framed
 				</label>
 				<label class="btn btn-secondary active">
-					<input type="radio" name="auto" value="FALSE" /> Not Framed
+					<input type="radio" name="is_framed" value="FALSE" /> Not Framed
 				</label>
 				<label class="btn btn-secondary active">
-					<input type="radio" name="auto" value="inactive" checked/> Both
+					<input type="radio" name="is_framed" value="inactive" checked/> Both
 				</label>
 			</div>
 			<div class="col">
@@ -110,7 +108,7 @@
 								</button>
 							</td>
 							<td class="align-middle col-md-1" align="center">
-								<button type="submit" value="delete {{item[0]}}" name="idea_operation" class="btn btn-sm">
+								<button type="button" data-id="{{item[3]}} {{item[0]}}" name="idea_operation" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deletebutton">
 									<i class="fa-solid fa-trash fa-lg"></i>
 								</button>
 							</td>
@@ -124,66 +122,38 @@
 					</form>
 			</tbody>
 		</table>
+		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Delete Prompt</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p id="bodystuff" name="bodystuff"></p>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+			</div>
+		</div>
 	{% elif session.page == 'display_question' %}
 	<div class="row justify-content-center">
 		<h1>Questions Database</h1>
 	</div>
 	<br>
 	<div class="row pt-sm-3">
-		<div class="col-1">
-			<!-- <div class="dropdown" data-bs-theme="dark">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Categories
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					{% for cat in categories %}
-						<button class="dropdown-item" type="button">
-							<input class="form-check-input" type="checkbox" value="{{cat}}" checked>
-							<label class="form-check-label">{{cat}}</label>
-						</button>
-					{% endfor %}
-				</div>
-			</div> -->
-		</div>
-		<div class="col-1">
-			<!-- <div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Quizzes
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					{% for quiz in quizzes %}
-						<button class="dropdown-item" type="button">
-							{% if quiz != "N/A" %}
-								<input class="form-check-input" type="checkbox" value="{{quiz}}" checked>
-							{% else %}
-								<input class="form-check-input" type="checkbox" value="{{quiz}}">
-							{% endif %}
-							<label class="form-check-label">{{quiz}}</label>
-						</button>
-						{% endfor %}
-					</div>
-				</div> -->
-		</div>
-		<div class="col-1">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="authors_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Authors
-				</button>
-				<div class="dropdown-menu" aria-labelledby="authors_dropdown">
-					{% for auth in authors %}
-						{% if auth == "All" %}
-							<input class="form-check-input" name="authors" type="checkbox" value="{{auth}}" checked>
-						{% else %}
-							<input class="form-check-input" name="authors" type="checkbox" value="{{auth}}">
-						{% endif %}
-						<label class="form-check-label">{{auth}}</label>
-					{% endfor %}
-				</div>
+		<div class="col">
+			<div class="col my-auto">
+				<label id="length_display">Displaying {{data|length}} records.</label>
 			</div>
 		</div>
-		<div class="col"></div>
 		<div class="col">
-			<input id="record_search" type="text" placeholder="Search..." class="form-control">
+		</div>
+		<div class="col">
+			<input id="record_search" type="text" placeholder="Search by question, answer, explanation, categories, subcategories, author" class="form-control">
 		</div>
 	</div>
 	<br>
@@ -207,15 +177,15 @@
 		<tbody id="records_body">
 			<form method="POST">
 					{% for item in data %}
-						<tr data="{{item[6]+item[9]+item[10]+item[11]}}">
+						<tr data="{{item[6]+item[9]+item[10]+item[11]+item[13]}}">
 							<td class="align-middle">{{item[0]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[9]}}">{{item[1]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[10]}}">{{item[2]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[11]}}">{{item[3]}}</td>
 							<td class="align-middle">{{item[4]}}</td>
 							<td class="align-middle">{{item[5]}}</td>
-							<td class="align-middle" name="author">{{item[6]}}</td>
-							<td class="align-middle" data-toggle="tooltip" title="{{item[13]}}">{{item[7]}}</td>
+							<td class="align-middle" name="author_col">{{item[6]}}</td>
+							<td class="align-middle" name="categories_col" data-toggle="tooltip" title="{{item[13]}}" value="{{item[13]}}">{{item[7]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[12]}}">{{item[8]}}</td>
 							<td class="align-middle" align="center">
 								<button type="submit" value="edit {{item[0]}}" name="edit_idea" class="btn btn-sm">
