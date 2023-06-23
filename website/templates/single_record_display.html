@@ -6,13 +6,14 @@
 	{% if session.page == 'single_idea' %}
 		<br>
 		<div class="row justify-content-center">
-			<h1>Displaying Record of Idea</h1>
+			<h1>Record of Idea: {{data[0]}}</h1>
 		</div>
 		<br><br>
 		<div class="form-row align-items-center">
 			<div class="row">
 				<div class="col">
-					<label>Index of Idea</label>
+					<!-- <label class="font-weight-bold">Index of Idea</label> -->
+					<h4>Index of Idea</h4>
 				</div>
 				<div class="col-3"></div>
 			</div>
@@ -25,7 +26,8 @@
 			<br><br>
 			<div class="row pt-lg-2">
 				<div class="col">
-					<label>Idea/Fact</label>
+					<!-- <label class="font-weight-bold">Idea/Fact</label> -->
+					<h4>Idea/Fact</h4>
 				</div>
 				<div class="col-3"></div>
 			</div>
@@ -38,7 +40,8 @@
 			<br><br>
 			<div class="row pt-lg-2">
 				<div class="col">
-					<label>Sources</label>
+					<!-- <label class="font-weight-bold">Sources</label> -->
+					<h4>Sources</h4>
 				</div>
 				<div class="col-3"></div>
 			</div>
@@ -68,8 +71,129 @@
 				</div>
 			</form>
 		</div>
-
-		
+	
+	{% elif session.page == 'single_question' %}
+		<br>
+		<div class="row justify-content-center">
+			<h1>Record of Question: {{data[0]}}</h1>
+		</div>
+		<br><br><br>
+		<div class="form-row align-items-center">
+			<div class="row">
+				<div class="col" type="button" data-bs-toggle="collapse" data-bs-target="#questionMetadata" aria-expanded="false" aria-controls="questionMetadata">
+					<h3><i class="fas fa-caret-down"></i>   Question Information</h3> 
+				</div>
+			</div>
+			<div class="collapse" id="questionMetadata">
+				<br>
+				<div class="row">
+					<div class="col">
+						<h4>Index</h4>
+					</div>
+					<div class="col">
+						<h4>Categories</h4>
+					</div>
+					<div class="col">
+						<h4>Subcategories</h4>
+					</div>
+					<div class="col">
+						<h4>Author</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						{{data[0]}}
+					</div>
+					<div class="col">
+						{{data[13]}}
+					</div>
+					<div class="col">
+						{{data[15]}}
+					</div>
+					<div class="col">
+						{{data[6]}}
+					</div>
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="col">
+						<h4>Created On</h4>
+					</div>
+					<div class="col">
+						<h4>Version</h4>
+					</div>
+					<div class="col">
+						<h4>Used In</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						{{data[5]}}
+					</div>
+					<div class="col">
+						1.0
+					</div>
+					<div class="col">
+						{{data[12]}}
+					</div>
+				</div>
+				<br><br>
+			</div>
+			<br><br>
+			<div class="row">
+				<div class="col" type="button" data-bs-toggle="collapse" data-bs-target="#questionData" aria-expanded="false" aria-controls="questionData">
+					<h3><i class="fas fa-caret-down"></i>   Question Data</h3>
+				</div>
+			</div>
+			<div class="collapse" id="questionData">
+				<br>
+				<div class="row">
+					<div class="col">
+						<h4>Question</h4>
+					</div>
+					<div class="col-4">
+						<h4>Question Media</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						{{data[9]}}
+					</div>
+					<div class="col-4">
+						N/A
+					</div>
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="col" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+						<h4><i class="fas fa-caret-down"></i>   Answer</h4>
+					</div>
+					<div class="col-4" type="button" data-bs-toggle="collapse" data-bs-target="#explanationCollapse" aria-expanded="false" aria-controls="explanationCollapse">
+						<h4><i class="fas fa-caret-down"></i>   Explanation</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+								{{data[10]}}
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="collapse" id="explanationCollapse">
+							<div class="card card-body">
+								{{data[11]}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br><br>
+			
+			<div class="row"></div>
+			<div class="row"></div>
+		</div>
 	{% endif %}
 
 {% endblock %}

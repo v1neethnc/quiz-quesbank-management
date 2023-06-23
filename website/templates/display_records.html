@@ -19,7 +19,7 @@
 				$(trs).hide();
 				$(trs).filter(function() {
 					$(this).toggle($(this).attr('data').toLowerCase().indexOf(value) > -1)
-			  	});
+				});
 				var text_replace = document.getElementById('length_display').innerText;
 				var new_text = $('tr:visible').length - 1;
 				document.getElementById('length_display').innerText = text_replace.replace(/\d+/, new_text);
@@ -36,7 +36,7 @@
 				else {
 					if(is_framed != '' && is_framed != 'inactive'){
 						trs = $(trs).find("[id='is_framed']"+':contains('+is_framed+')').parent();
-				  	}
+					}
 				}
 				$(trs).show();
 				var text_replace = document.getElementById('length_display').innerText;
@@ -49,10 +49,11 @@
 			isFramedVal = isFramedVal.split(" ");
 			var res = "Are you sure you want to delete this entry?"
 			if(isFramedVal[0] == 'TRUE'){
-			  res = res + ' The question associated with it will also be deleted but stored in a backup.';
+				res = res + ' The question associated with it will also be deleted but stored in a backup.';
 			}
 			document.getElementById('bodystuff').innerText = res;
-	   });
+			$("#delete_confirm").attr('value', 'idea ' + isFramedVal[1]);
+		});
 
 	
 	</script>
@@ -133,8 +134,10 @@
 					<p id="bodystuff" name="bodystuff"></p>
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<form method="POST">
+					<button type="button" class="btn btn-primary" id="delete_confirm">Save changes</button>
+				</form>
 				</div>
 			</div>
 			</div>
@@ -168,6 +171,7 @@
 				<th>Date</th>
 				<th>Author</th>
 				<th>Categories</th>
+				<th>Subcategories</th>
 				<th>Used In</th>
 				<th></th>
 				<th></th>
@@ -177,7 +181,7 @@
 		<tbody id="records_body">
 			<form method="POST">
 					{% for item in data %}
-						<tr data="{{item[6]+item[9]+item[10]+item[11]+item[13]}}">
+						<tr data="{{item[6]+item[9]+item[10]+item[11]+item[13]+item[15]}}">
 							<td class="align-middle">{{item[0]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[9]}}">{{item[1]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[10]}}">{{item[2]}}</td>
@@ -186,19 +190,20 @@
 							<td class="align-middle">{{item[5]}}</td>
 							<td class="align-middle" name="author_col">{{item[6]}}</td>
 							<td class="align-middle" name="categories_col" data-toggle="tooltip" title="{{item[13]}}" value="{{item[13]}}">{{item[7]}}</td>
+							<td class="align-middle" name="subcategories_col" data-toggle="tooltip" title="{{item[15]}}" value="{{item[15]}}">{{item[14]}}</td>
 							<td class="align-middle" data-toggle="tooltip" title="{{item[12]}}">{{item[8]}}</td>
 							<td class="align-middle" align="center">
-								<button type="submit" value="edit {{item[0]}}" name="edit_idea" class="btn btn-sm">
+								<button type="submit" value="edit {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-regular fa-pen-to-square fa-lg"></i>
 								</button>
 							</td>
 							<td class="align-middle" align="center">
-								<button type="submit" value="delete {{item[0]}}" name="delete_idea" class="btn btn-sm">
+								<button type="submit" value="delete {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-solid fa-trash fa-lg"></i>
 								</button>
 							</td>
 							<td class="align-middle">
-								<button type="submit" value="more {{item[0]}}" name="id_val" class="btn btn-sm">
+								<button type="submit" value="more {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-solid fa-arrow-up-right-from-square fa-lg"></i>
 								</button>
 							</td>
