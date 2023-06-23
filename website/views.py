@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for, flash
 from . import query_obj
 from .helpers import DataInserter
-from .operations import operations
 
 views = Blueprint('views', __name__)
 
@@ -111,8 +110,13 @@ def display_records():
 		# Check what kind of page this is and get corresponding button value
 		# TO-DO: Add code for edit and delete buttons 
 		if 'question' in session['page']:
-			q_id = request.form.get('id_val')
-			print(q_id)
+			ques_operation = request.form.get('question_operation')
+			operation, index = ques_operation.split(' ')[0], int(ques_operation.split(' ')[1]) - 1
+			print(operation, index, data_used[index])
+			if operation == 'more':
+				session['page'] = 'single_question'
+				session['data'] = data_used[index]
+				return redirect(url_for('operations.single_record_display'))
 		elif 'idea' in session['page']:
 			q_type = request.form.get('idea_operation')
 			operation, index = q_type.split(' ')[0], int(q_type.split(' ')[1]) - 1

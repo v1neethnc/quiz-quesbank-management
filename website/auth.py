@@ -21,7 +21,8 @@ def login():
 			return redirect(url_for('views.home'))
 		else:
 			flash("Incorrect credentials", category='error')
-
+	if 'is_login' in session:
+		return render_template('home.html')
 	return render_template("login.html")
 
 @auth.route('logout')
