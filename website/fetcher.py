@@ -14,32 +14,15 @@ class DataFetcher:
 		self.query_obj = sql_obj
 		self.data_used = None
 		self.config = ConfigParser()
-		self.config.read('config.cfg')
+		self.config.read('website/queries.cfg')
 
 	def select_query(self):
 		"""
-		Method to identify the page and return the relevant select query
+		Method to identify the page and return the relevant select query for display pages
 		"""
-		# Map pages to relevant tables
-		table_map = {'idea': 'question_ideas', 'quiz': 'quizzes', 'note': 'notes'}
+		# Get the page type and return the select query from the config file for display
 		page = session['page'].split('_')[1]
-
-		# If the page is one of idea, quiz, or note
-		if page in table_map.keys():
-			# Select the right clause that orders data on the page and return the query
-			clause = ''
-			if page == 'quiz':
-				clause = ' order by date_of_quiz asc'
-			elif page == 'note':
-				clause = ' order by record_update_date asc'
-			return f"select * from {table_map[page]}{clause}"
-		
-		# Return the select query for display questions
-		return """select 
-		qd.question_index, qd.question_text, qd.answer_text, qd.answer_explanation, qd.idea_index, qcl.cnm, qd.question_create_date, qd.owner, qd.used_in, qcl.snm
-		from questions_data qd inner join question_categories_list qcl 
-		on qcl.qid = qd.question_index
-		order by qd.question_index"""
+		return self.config['display_queries'][page]
 
 	def data_fetcher(self):
 		"""
@@ -95,6 +78,14 @@ class DataFetcher:
 		command = 'select distinct owner from questions_data'
 		return [self.config['names']['v1'] if auth[0] == self.config['names']['v1'][0] else self.config['names']['v2'] for auth in self.cursor_execution(command)]
 
+	def names_indices_fetcher(self, page):
+		"""
+		Fetches the names and indices from specific tables for populating dropdown lists.
+		names for categories, subcategories, and authors
+		indices for quizzes
+		"""
+		return [i[0] for i in self.cursor_execution(self.config['names_indices'][page])]
+
 	def data_preprocessor(self, data):
 		"""
 		To perform length reduction and convert datetime objects into proper dates to aid best display
@@ -111,8 +102,8 @@ class DataFetcher:
 			# The order of data is: 
 			# index, r_idea, r_sources, is_framed, f_idea, f_sources
 			for line in data:
-				idea, sources = self.length_reducer([line[1], line[2]], [70, 30])
-				line_to_display = [line[0], idea, sources, line[3], line[1], line[2]]
+				idea, sources = self.length_reducer([line[1], line[2]], [60, 30])
+				line_to_display = [line[0], idea, sources, line[3], line[4], line[1], line[2]]
 				data_to_display.append(line_to_display)
 		
 		# Display questions
@@ -121,13 +112,13 @@ class DataFetcher:
 			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
 			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
 			for line in data:
-				question, answer, explanation, categories, quizzes, subcategories = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ', '), line[8], line[9].replace(',', ', ')], [45, 20, 25, 25, 10, 25])
-				date_val = line[6].strftime('%d-%m-%Y')
-				author = self.config['names']['v1'] if line[7] == 'A' else self.config['names']['v2']
+				question, answer, explanation, categories, subcategories, quizzes = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ', '), line[6].replace(',', ', '),  line[10]], [45, 20, 25, 25, 25, 10])
+				date_val = line[8].strftime('%d-%m-%Y')
+				author = line[7]
 				ques = line[1].replace('\\n', '\n')
 				ans = line[2].replace('\\n', '\n')
 				expl = line[3].replace('\\n', '\n')
-				line_to_display = [line[0], question, answer, explanation, line[4], date_val, author, categories, quizzes, ques, ans, expl, line[8], line[5].replace(',', ', '), subcategories, line[9].replace(',', ', ')]
+				line_to_display = [line[0], question, answer, explanation, line[4], date_val, author, categories, quizzes, ques, ans, expl, line[10].replace(',', ', '), line[5].replace(',', ', '), subcategories, line[6].replace(',', ', ')]
 				data_to_display.append(line_to_display)
 
 		# Display quizzes
@@ -145,10 +136,10 @@ class DataFetcher:
 			# The order of data is:
 			# r_note, create date, last updated date, f_note
 			for line in data:
-				note = self.length_reducer([line[1]], [75])
+				note = self.length_reducer([line[0]], [75])
 				create_date = line[2].strftime('%d-%m-%Y')
 				update_date = line[3].strftime('%d-%m-%Y')
-				line_to_display = [note[0], create_date, update_date, line[1]]
+				line_to_display = [note[0], line[1], create_date, update_date, line[0]]
 				data_to_display.append(line_to_display)
 		
 		return data_to_display

@@ -69,10 +69,10 @@
 			</div>
 			<div class="col">
 				<label class="btn btn-secondary active">
-					<input type="radio" name="is_framed" value="TRUE" /> Framed
+					<input type="radio" name="is_framed" value="Yes" /> Framed
 				</label>
 				<label class="btn btn-secondary active">
-					<input type="radio" name="is_framed" value="FALSE" /> Not Framed
+					<input type="radio" name="is_framed" value="No" /> Not Framed
 				</label>
 				<label class="btn btn-secondary active">
 					<input type="radio" name="is_framed" value="inactive" checked/> Both
@@ -90,6 +90,7 @@
 					<th style="width:auto;">Idea</th>
 					<th style="width:auto;">Sources</th>
 					<th style="width:auto;">Framed?</th>
+					<th style="width:auto;">Author</th>
 					<th style="width:auto;"></th>
 					<th style="width:auto;"></th>
 					<th style="width:auto;"></th>
@@ -98,11 +99,12 @@
 			<tbody id="records_body">
 				<form method="POST">
 				{% for item in data %}
-						<tr data="{{item[4]}}">
+						<tr data="{{item[4] + ' ' + item[5]}}">
 							<td class="col-md-1 align-middle">{{item[0]}}</td>
-							<td class="col-md-6 align-middle" data-toggle="tooltip" title="{{item[4]}}">{{item[1]}}</td>
-							<td class="col-md-4 align-middle" data-toggle="tooltip" title="{{item[5]}}">{{item[2]}}</td>
+							<td class="col-md-6 align-middle" data-bs-toggle="tooltip" title="{{item[5]}}">{{item[1]}}</td>
+							<td class="col-md-4 align-middle" data-bs-toggle="tooltip" title="{{item[6]}}">{{item[2]}}</td>
 							<td class="col-md-1 align-middle" id="is_framed">{{item[3]}}</td>
+							<td class="col-md-1 align-middle">{{item[4]}}</td>
 							<td class="align-middle col-md-1" align="center">
 								<button type="submit" value="edit {{item[0]}}" name="idea_operation" class="btn btn-sm">
 									<i class="fa-regular fa-pen-to-square fa-lg"></i>
@@ -183,15 +185,15 @@
 					{% for item in data %}
 						<tr data="{{item[6]+item[9]+item[10]+item[11]+item[13]+item[15]}}">
 							<td class="align-middle">{{item[0]}}</td>
-							<td class="align-middle" data-toggle="tooltip" title="{{item[9]}}">{{item[1]}}</td>
-							<td class="align-middle" data-toggle="tooltip" title="{{item[10]}}">{{item[2]}}</td>
-							<td class="align-middle" data-toggle="tooltip" title="{{item[11]}}">{{item[3]}}</td>
+							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[9]}}">{{item[1]}}</td>
+							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[10]}}">{{item[2]}}</td>
+							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[11]}}">{{item[3]}}</td>
 							<td class="align-middle">{{item[4]}}</td>
 							<td class="align-middle">{{item[5]}}</td>
 							<td class="align-middle" name="author_col">{{item[6]}}</td>
-							<td class="align-middle" name="categories_col" data-toggle="tooltip" title="{{item[13]}}" value="{{item[13]}}">{{item[7]}}</td>
-							<td class="align-middle" name="subcategories_col" data-toggle="tooltip" title="{{item[15]}}" value="{{item[15]}}">{{item[14]}}</td>
-							<td class="align-middle" data-toggle="tooltip" title="{{item[12]}}">{{item[8]}}</td>
+							<td class="align-middle" name="categories_col" data-bs-toggle="tooltip" title="{{item[13]}}" value="{{item[13]}}">{{item[7]}}</td>
+							<td class="align-middle" name="subcategories_col" data-bs-toggle="tooltip" title="{{item[15]}}" value="{{item[15]}}">{{item[14]}}</td>
+							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[12]}}">{{item[8]}}</td>
 							<td class="align-middle" align="center">
 								<button type="submit" value="edit {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-regular fa-pen-to-square fa-lg"></i>
@@ -236,13 +238,13 @@
 				<tr>
 					<td class="align-middle">{{item[0]}}</td>
 					<td class="align-middle">{{item[1]}}</td>
-					<td class="align-middle" data-toggle="tooltip" title="{{item[9]}}">{{item[2]}}</td>
+					<td class="align-middle" data-bs-toggle="tooltip" title="{{item[9]}}">{{item[2]}}</td>
 					<td class="align-middle">{{item[3]}}</td>
 					<td class="align-middle">{{item[4]}}</td>
 					<td class="align-middle">{{item[5]}}</td>
 					<td class="align-middle">{{item[6]}}</td>
 					<td class="align-middle">{{item[7]}}</td>
-					<td class="align-middle" data-toggle="tooltip" title="{{item[10]}}">{{item[8]}}</td>
+					<td class="align-middle" data-bs-toggle="tooltip" title="{{item[10]}}">{{item[8]}}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -255,6 +257,7 @@
 		<thead class="thead-dark">
 			<tr>
 				<th style="width:auto;">Note</th>
+				<th style="width:auto;">Author</th>
 				<th style="width:auto;">Created</th>
 				<th style="width:auto;">Updated</th>
 				<th style="width:auto;"></th>
@@ -266,9 +269,10 @@
 			{% for item in data %}
 				<form method="POST">
 					<tr>
-						<td class="col-md-6 align-middle" data-toggle="tooltip" title="{{item[3]}}">{{item[0]}}</td>
+						<td class="col-md-6 align-middle" data-bs-toggle="tooltip" title="{{item[4]}}">{{item[0]}}</td>
 						<td class="col-md-1 align-middle">{{item[1]}}</td>
 						<td class="col-md-1 align-middle">{{item[2]}}</td>
+						<td class="col-md-1 align-middle">{{item[3]}}</td>
 						<td class="align-middle col-md-1" align="center">
 							<button type="submit" value="edit {{item[0]}}" name="edit_idea" class="btn btn-sm">
 								<i class="fa-regular fa-pen-to-square fa-lg"></i>

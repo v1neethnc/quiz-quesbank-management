@@ -12,7 +12,6 @@
 		<div class="form-row align-items-center">
 			<div class="row">
 				<div class="col">
-					<!-- <label class="font-weight-bold">Index of Idea</label> -->
 					<h4>Index of Idea</h4>
 				</div>
 				<div class="col-3"></div>
@@ -26,7 +25,6 @@
 			<br><br>
 			<div class="row pt-lg-2">
 				<div class="col">
-					<!-- <label class="font-weight-bold">Idea/Fact</label> -->
 					<h4>Idea/Fact</h4>
 				</div>
 				<div class="col-3"></div>
@@ -175,24 +173,31 @@
 				<div class="row">
 					<div class="col">
 						<div class="collapse" id="collapseExample">
-							<div class="card card-body">
-								{{data[10]}}
-							</div>
+							{{data[10]}}
 						</div>
 					</div>
 					<div class="col-4">
 						<div class="collapse" id="explanationCollapse">
-							<div class="card card-body">
-								{{data[11]}}
-							</div>
+							{{data[11]}}
 						</div>
 					</div>
 				</div>
 			</div>
 			<br><br>
 			
-			<div class="row"></div>
-			<div class="row"></div>
+			<form method="POST">
+				<div class="row pt-lg-2">
+					<div class="col-1"></div>
+					<div class="col-2">
+						<button type="button" class="btn btn-secondary" value="edit {{data[0]}}">Edit Question</button>
+					</div>
+					<div class="col"></div>
+					<div class="col-2">
+						<button type="button" class="btn btn-danger" value="delete {{data[0]}}">Delete Question</button>
+					</div>
+					<div class="col"></div>
+				</div>
+			</form>
 		</div>
 	{% endif %}
 
