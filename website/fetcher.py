@@ -39,12 +39,19 @@ class DataFetcher:
 		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
 		values with the string terminated by an ellipsis, limiting the length to max allowed length
 		"""
+		"""
+		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
+		values with the string terminated by an ellipsis, limiting the length to max allowed length
+		"""
 		res_strs = []
 		for string, length in zip(str_list, len_list):
 			res_strs.append(string[:length-3] + "..." if len(string) > length else string)
 		return res_strs
 	
 	def cursor_execution(self, query):
+		"""
+		Creates a cursor from the SQL object, executes the query, and returns the entire dataset fetched
+		"""
 		"""
 		Creates a cursor from the SQL object, executes the query, and returns the entire dataset fetched
 		"""
@@ -100,6 +107,17 @@ class DataFetcher:
 		# Display ideas
 		# r_ => column after length_reducer
 		# f_ => actual column data before length_reducer
+		"""
+		To perform length reduction and convert datetime objects into proper dates to aid best display
+		standards. The final results are stored in data_to_display. The data stored in data_used is processed
+		for the display pages. For columns put through length_reducer, the full data is also sent in the variable
+		line_to_display so that they may be displayed as a tooltip on the actual webpage.
+		"""
+		data_to_display = []
+		
+		# Display ideas
+		# r_ => column after length_reducer
+		# f_ => actual column data before length_reducer
 		if 'idea' in session['page']:
 			# The order of data is: 
 			# index, r_idea, r_sources, is_framed, f_idea, f_sources
@@ -115,6 +133,9 @@ class DataFetcher:
 			# The order of data is:
 			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
 			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
+			# The order of data is:
+			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
+			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
 			for line in data:
 				question, answer, explanation, categories, subcategories, quizzes = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ', '), line[6].replace(',', ', '),  line[10]], [45, 20, 25, 25, 25, 10])
 				date_val = line[8].strftime('%d-%m-%Y')
@@ -126,7 +147,10 @@ class DataFetcher:
 				data_to_display.append(line_to_display)
 
 		# Display quizzes
+		# Display quizzes
 		if 'quiz' in session['page']:
+			# The order of data is:
+			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			# The order of data is:
 			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			for line in data:
@@ -136,7 +160,14 @@ class DataFetcher:
 				data_to_display.append(line_to_display)
 
 		# Display notes
+				date_val = line[5].strftime('%d-%m-%Y')
+				line_to_display = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
+				data_to_display.append(line_to_display)
+
+		# Display notes
 		if 'note' in session['page']:
+			# The order of data is:
+			# r_note, create date, last updated date, f_note
 			# The order of data is:
 			# r_note, create date, last updated date, f_note
 			for line in data:
