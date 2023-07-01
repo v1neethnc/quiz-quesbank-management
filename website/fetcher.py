@@ -11,6 +11,14 @@ class DataFetcher:
 
 		This class as of 17 June 2023 is primarily used for the display_records page.
 		"""
+		"""
+		The attributes are as follows:
+		query_obj: contains the MySQL object
+		data_used: contains the data fetched from the last select query
+		config: ConfigParser object that reads the relevant config file
+
+		This class as of 17 June 2023 is primarily used for the display_records page.
+		"""
 		self.query_obj = sql_obj
 		self.data_used = None
 		self.config = ConfigParser()
@@ -28,11 +36,18 @@ class DataFetcher:
 		"""
 		Runs the select queries and writes data into the data_used attribute
 		"""
+		"""
+		Runs the select queries and writes data into the data_used attribute
+		"""
 		command = self.select_query()
 		data = self.cursor_execution(command)
 		self.data_used = self.data_preprocessor(data)
 
 	def length_reducer(self, str_list, len_list):
+		"""
+		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
+		values with the string terminated by an ellipsis, limiting the length to max allowed length
+		"""
 		"""
 		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
 		values with the string terminated by an ellipsis, limiting the length to max allowed length
@@ -46,11 +61,17 @@ class DataFetcher:
 		"""
 		Creates a cursor from the SQL object, executes the query, and returns the entire dataset fetched
 		"""
+		"""
+		Creates a cursor from the SQL object, executes the query, and returns the entire dataset fetched
+		"""
 		cursor = self.query_obj.connection.cursor()
 		cursor.execute(query)
 		return cursor.fetchall()
 	
 	def category_fetcher(self):
+		"""
+		Fetches category names from the database, primarily for the filter on display_questions
+		"""
 		"""
 		Fetches category names from the database, primarily for the filter on display_questions
 		"""
@@ -61,6 +82,9 @@ class DataFetcher:
 		"""
 		Fetches subcategory names from the database, primarily for the filter on display_questions
 		"""
+		"""
+		Fetches subcategory names from the database, primarily for the filter on display_questions
+		"""
 		command = 'select subcategory_name from subcategories'
 		return [i[0] for i in self.cursor_execution(command)]
 
@@ -68,10 +92,16 @@ class DataFetcher:
 		"""
 		Fetches quizzes indices from the database, primarily for the filter on display_questions
 		"""
+		"""
+		Fetches quizzes indices from the database, primarily for the filter on display_questions
+		"""
 		command = 'select quiz_index from quizzes'
 		return [i[0] for i in self.cursor_execution(command)]
 
 	def authors_fetcher(self):
+		"""
+		Fetches author names from the database, primarily for the filter on display_questions
+		"""
 		"""
 		Fetches author names from the database, primarily for the filter on display_questions
 		"""
@@ -98,7 +128,20 @@ class DataFetcher:
 		# Display ideas
 		# r_ => column after length_reducer
 		# f_ => actual column data before length_reducer
+		"""
+		To perform length reduction and convert datetime objects into proper dates to aid best display
+		standards. The final results are stored in data_to_display. The data stored in data_used is processed
+		for the display pages. For columns put through length_reducer, the full data is also sent in the variable
+		line_to_display so that they may be displayed as a tooltip on the actual webpage.
+		"""
+		data_to_display = []
+		
+		# Display ideas
+		# r_ => column after length_reducer
+		# f_ => actual column data before length_reducer
 		if 'idea' in session['page']:
+			# The order of data is: 
+			# index, r_idea, r_sources, is_framed, f_idea, f_sources
 			# The order of data is: 
 			# index, r_idea, r_sources, is_framed, f_idea, f_sources
 			for line in data:
@@ -108,6 +151,9 @@ class DataFetcher:
 		
 		# Display questions
 		if 'question' in session['page']:
+			# The order of data is:
+			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
+			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
 			# The order of data is:
 			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
 			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
@@ -122,7 +168,10 @@ class DataFetcher:
 				data_to_display.append(line_to_display)
 
 		# Display quizzes
+		# Display quizzes
 		if 'quiz' in session['page']:
+			# The order of data is:
+			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			# The order of data is:
 			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			for line in data:
@@ -132,7 +181,14 @@ class DataFetcher:
 				data_to_display.append(line_to_display)
 
 		# Display notes
+				date_val = line[5].strftime('%d-%m-%Y')
+				line_to_display = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
+				data_to_display.append(line_to_display)
+
+		# Display notes
 		if 'note' in session['page']:
+			# The order of data is:
+			# r_note, create date, last updated date, f_note
 			# The order of data is:
 			# r_note, create date, last updated date, f_note
 			for line in data:
