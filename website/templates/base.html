@@ -3,19 +3,21 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, inital-scale=1" />
+		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static/bootstrap/css/bootstrap-table.min.css">
 		<script src="static/bootstrap/js/jquery.min.js"></script>
 		<link rel="stylesheet" href="static/fontawesome/css/all.css">
 		<link rel="stylesheet" href="static/fontawesome/css/all.min.css">
 		<script src="static/fontawesome/js/all.js"></script>
 		<script src="static/fontawesome/js/all.min.js"></script>
-		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+		<!-- <script src="static/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+		<script src="static/bootstrap/js/popper.min.js"></script>
 		<script src="static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="static/bootstrap/js/bootstrap.bundle.js"></script>
-		<link rel="stylesheet" href="static/bootstrap/css/bootstrap-table.min.css">
 		<title>
 			{% block title %}Home{% endblock %}
 		</title>
+		<!-- To make the size of tooltip big enough to support newline characters -->
 		<style>
 			.tooltip-inner {
 				max-width: 500px; /* the minimum width */
@@ -23,35 +25,37 @@
 		</style>
 	</head>
 	<body>
-		<!-- The class is a bootstrap class so just check that out whenever needed -->
+
+		<!-- Show the navbar only if the user is logged in -->
 		{% if session.is_login %}
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbar">
-					<div class="navbar-nav">
-						<a class="nav-item nav-link" id="home" href="/home">Home</a>
-						<!-- <a class="nav-item nav-link" id="logout" href="/">Login</a> -->
-						<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-					</div>
+				<div class="navbar-nav">
+					<a class="nav-item nav-link" id="home" href="/home">Home</a>
+					<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
 				</div>
-			</nav>
+			</div>
+		</nav>
 		{% endif %}
+
+		<!-- Code for allowing flash messages from Flask -->
 		{% with messages = get_flashed_messages(with_categories=true) %}
 			{% if messages %}
 				{% for category, message in messages %}
 					{% if category == 'error'%}
 						<div class="alert alert-danger alert-dismissable fade show" role="alert">
 							{{ message }}
-							<button type="button" class="close" data-dismiss="alert">
+							<button type="button" class="close" data-bs-dismiss="alert">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 					{% else %}
 						<div class="alert alert-success alert-dismissable fade show" role="alert">
 							{{ message }}
-							<button type="button" class="close" data-dismiss="alert">
+							<button type="button" class="close" data-bs-dismiss="alert">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
@@ -59,6 +63,8 @@
 				{% endfor %}
 			{% endif %}
 		{% endwith %}
+
+		<!-- Set the size of the body div, we'll need a larger size for Display Questions page -->
 		{% set active_item = active_item|default('home') %}
 		<div class='{{"container-fluid" if active_item == "other" else "container"}}'>
 			{% block content %}

@@ -4,3 +4,6 @@ website/data
 dbdiagram_schema.txt
 website/templates/test.html
 db_connect.py
+actual data/
+sample data/
+website/queries.cfg

@@ -99,12 +99,15 @@ def display_records():
 	categories, quizzes, authors = [], [], []
 	if 'question' in session['page']:
 		# Update the lists for the display questions page
-		categories = query_obj.category_fetcher()
-		quizzes = query_obj.quizzes_fetcher()
-		authors = query_obj.authors_fetcher()
+		categories = query_obj.names_indices_fetcher('category')
+		quizzes = query_obj.names_indices_fetcher('quizzes')
+		authors = query_obj.names_indices_fetcher('authors')
+		# categories = query_obj.category_fetcher()
+		# quizzes = query_obj.quizzes_fetcher()
+		# authors = query_obj.authors_fetcher()
 		quizzes.append("N/A")
 		authors.append("All")
-
+		
 	# If any of the three buttons are clicked
 	if request.method == 'POST':
 		# Check what kind of page this is and get corresponding button value
