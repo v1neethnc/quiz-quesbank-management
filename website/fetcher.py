@@ -3,14 +3,7 @@ from configparser import ConfigParser
 
 class DataFetcher:
 	def __init__(self, sql_obj):
-		"""
-		The attributes are as follows:
-		query_obj: contains the MySQL object
-		data_used: contains the data fetched from the last select query
-		config: ConfigParser object that reads the relevant config file
 
-		This class as of 17 June 2023 is primarily used for the display_records page.
-		"""
 		"""
 		The attributes are as follows:
 		query_obj: contains the MySQL object
@@ -33,9 +26,7 @@ class DataFetcher:
 		return self.config['display_queries'][page]
 
 	def data_fetcher(self):
-		"""
-		Runs the select queries and writes data into the data_used attribute
-		"""
+
 		"""
 		Runs the select queries and writes data into the data_used attribute
 		"""
@@ -44,10 +35,6 @@ class DataFetcher:
 		self.data_used = self.data_preprocessor(data)
 
 	def length_reducer(self, str_list, len_list):
-		"""
-		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
-		values with the string terminated by an ellipsis, limiting the length to max allowed length
-		"""
 		"""
 		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
 		values with the string terminated by an ellipsis, limiting the length to max allowed length
@@ -61,52 +48,37 @@ class DataFetcher:
 		"""
 		Creates a cursor from the SQL object, executes the query, and returns the entire dataset fetched
 		"""
-		"""
-		Creates a cursor from the SQL object, executes the query, and returns the entire dataset fetched
-		"""
 		cursor = self.query_obj.connection.cursor()
 		cursor.execute(query)
 		return cursor.fetchall()
 	
-	def category_fetcher(self):
-		"""
-		Fetches category names from the database, primarily for the filter on display_questions
-		"""
-		"""
-		Fetches category names from the database, primarily for the filter on display_questions
-		"""
-		command = 'select category_name from categories'
-		return [i[0] for i in self.cursor_execution(command)]
+	# def category_fetcher(self):
+	# 	"""
+	# 	Fetches category names from the database, primarily for the filter on display_questions
+	# 	"""
+	# 	command = 'select category_name from categories'
+	# 	return [i[0] for i in self.cursor_execution(command)]
 	
-	def subcategory_fetcher(self):
-		"""
-		Fetches subcategory names from the database, primarily for the filter on display_questions
-		"""
-		"""
-		Fetches subcategory names from the database, primarily for the filter on display_questions
-		"""
-		command = 'select subcategory_name from subcategories'
-		return [i[0] for i in self.cursor_execution(command)]
+	# def subcategory_fetcher(self):
+	# 	"""
+	# 	Fetches subcategory names from the database, primarily for the filter on display_questions
+	# 	"""
+	# 	command = 'select subcategory_name from subcategories'
+	# 	return [i[0] for i in self.cursor_execution(command)]
 
-	def quizzes_fetcher(self):
-		"""
-		Fetches quizzes indices from the database, primarily for the filter on display_questions
-		"""
-		"""
-		Fetches quizzes indices from the database, primarily for the filter on display_questions
-		"""
-		command = 'select quiz_index from quizzes'
-		return [i[0] for i in self.cursor_execution(command)]
+	# def quizzes_fetcher(self):
+	# 	"""
+	# 	Fetches quizzes indices from the database, primarily for the filter on display_questions
+	# 	"""
+	# 	command = 'select quiz_index from quizzes'
+	# 	return [i[0] for i in self.cursor_execution(command)]
 
-	def authors_fetcher(self):
-		"""
-		Fetches author names from the database, primarily for the filter on display_questions
-		"""
-		"""
-		Fetches author names from the database, primarily for the filter on display_questions
-		"""
-		command = 'select distinct owner from questions_data'
-		return [self.config['names']['v1'] if auth[0] == self.config['names']['v1'][0] else self.config['names']['v2'] for auth in self.cursor_execution(command)]
+	# def authors_fetcher(self):
+	# 	"""
+	# 	Fetches author names from the database, primarily for the filter on display_questions
+	# 	"""
+	# 	command = 'select distinct owner from questions_data'
+	# 	return [self.config['names']['v1'] if auth[0] == self.config['names']['v1'][0] else self.config['names']['v2'] for auth in self.cursor_execution(command)]
 
 	def names_indices_fetcher(self, page):
 		"""
@@ -117,17 +89,6 @@ class DataFetcher:
 		return [i[0] for i in self.cursor_execution(self.config['names_indices'][page])]
 
 	def data_preprocessor(self, data):
-		"""
-		To perform length reduction and convert datetime objects into proper dates to aid best display
-		standards. The final results are stored in data_to_display. The data stored in data_used is processed
-		for the display pages. For columns put through length_reducer, the full data is also sent in the variable
-		line_to_display so that they may be displayed as a tooltip on the actual webpage.
-		"""
-		data_to_display = []
-		
-		# Display ideas
-		# r_ => column after length_reducer
-		# f_ => actual column data before length_reducer
 		"""
 		To perform length reduction and convert datetime objects into proper dates to aid best display
 		standards. The final results are stored in data_to_display. The data stored in data_used is processed
@@ -154,9 +115,6 @@ class DataFetcher:
 			# The order of data is:
 			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
 			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
-			# The order of data is:
-			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
-			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
 			for line in data:
 				question, answer, explanation, categories, subcategories, quizzes = self.length_reducer([line[1], line[2], line[3], line[5].replace(',', ', '), line[6].replace(',', ', '),  line[10]], [45, 20, 25, 25, 25, 10])
 				date_val = line[8].strftime('%d-%m-%Y')
@@ -168,10 +126,7 @@ class DataFetcher:
 				data_to_display.append(line_to_display)
 
 		# Display quizzes
-		# Display quizzes
 		if 'quiz' in session['page']:
-			# The order of data is:
-			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			# The order of data is:
 			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			for line in data:
@@ -181,14 +136,7 @@ class DataFetcher:
 				data_to_display.append(line_to_display)
 
 		# Display notes
-				date_val = line[5].strftime('%d-%m-%Y')
-				line_to_display = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
-				data_to_display.append(line_to_display)
-
-		# Display notes
 		if 'note' in session['page']:
-			# The order of data is:
-			# r_note, create date, last updated date, f_note
 			# The order of data is:
 			# r_note, create date, last updated date, f_note
 			for line in data:
