@@ -74,9 +74,6 @@
 			<div class="col my-auto">
 				<label id="length_display">Displaying {{data|length}} records.</label>
 			</div>
-			<div class="col my-auto">
-				<label id="length_display">Displaying {{data|length}} records.</label>
-			</div>
 			<div class="col">
 				<label class="btn btn-secondary active">
 					<input type="radio" name="is_framed" value="Yes" /> Framed
@@ -85,7 +82,6 @@
 					<input type="radio" name="is_framed" value="No" /> Not Framed
 				</label>
 				<label class="btn btn-secondary active">
-					<input type="radio" name="is_framed" value="inactive" checked/> Both
 					<input type="radio" name="is_framed" value="inactive" checked/> Both
 				</label>
 			</div>
@@ -123,7 +119,6 @@
 							</td>
 							<td class="align-middle col-md-1" align="center">
 								<button type="button" data-id="{{item[3]}} {{item[0]}}" name="idea_operation" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deletebutton">
-								<button type="button" data-id="{{item[3]}} {{item[0]}}" name="idea_operation" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" id="deletebutton">
 									<i class="fa-solid fa-trash fa-lg"></i>
 								</button>
 							</td>
@@ -137,25 +132,6 @@
 					</form>
 			</tbody>
 		</table>
-		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-				<h5 class="modal-title" id="deleteModalLabel">Delete Prompt</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p id="bodystuff" name="bodystuff"></p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<form method="POST">
-					<button type="button" class="btn btn-primary" id="delete_confirm">Save changes</button>
-				</form>
-				</div>
-			</div>
-			</div>
-		</div>
 		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 			<div class="modal-content">
@@ -215,7 +191,6 @@
 			<form method="POST">
 					{% for item in data %}
 						<tr data="{{item[6]+item[9]+item[10]+item[11]+item[13]+item[15]}}">
-						<tr data="{{item[6]+item[9]+item[10]+item[11]+item[13]+item[15]}}">
 							<td class="align-middle">{{item[0]}}</td>
 							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[9]}}">{{item[1]}}</td>
 							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[10]}}">{{item[2]}}</td>
@@ -228,18 +203,15 @@
 							<td class="align-middle" data-bs-toggle="tooltip" title="{{item[12]}}">{{item[8]}}</td>
 							<td class="align-middle" align="center">
 								<button type="submit" value="edit {{item[0]}}" name="question_operation" class="btn btn-sm">
-								<button type="submit" value="edit {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-regular fa-pen-to-square fa-lg"></i>
 								</button>
 							</td>
 							<td class="align-middle" align="center">
 								<button type="submit" value="delete {{item[0]}}" name="question_operation" class="btn btn-sm">
-								<button type="submit" value="delete {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-solid fa-trash fa-lg"></i>
 								</button>
 							</td>
 							<td class="align-middle">
-								<button type="submit" value="more {{item[0]}}" name="question_operation" class="btn btn-sm">
 								<button type="submit" value="more {{item[0]}}" name="question_operation" class="btn btn-sm">
 									<i class="fa-solid fa-arrow-up-right-from-square fa-lg"></i>
 								</button>
