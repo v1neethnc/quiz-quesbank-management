@@ -15,9 +15,14 @@ def login():
 
 		if cursor.rowcount == 1:
 			flash("Logged in, I suppose", category='success')
+			command = 'select author_name, author_id from authors where username= %s'
+			cursor.execute(command, [username])
+			author_details = cursor.fetchall()
 			session['is_login'] = True
 			session['username'] = username
 			session['page'] = 'home'
+			session['author'] = author_details[0][0]
+			session['author_id'] = author_details[0][1]
 			return redirect(url_for('views.home'))
 		else:
 			flash("Incorrect credentials", category='error')

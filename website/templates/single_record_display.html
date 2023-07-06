@@ -31,7 +31,7 @@
 			</div>
 			<div class="row pt-lg-2">
 				<div class="col">
-					<textarea class="form-control" rows="5" readonly>{{data[4]}}</textarea>
+					<textarea class="form-control" rows="5" readonly>{{data[5]}}</textarea>
 				</div>
 				<div class="col-3"></div>
 			</div>
@@ -45,7 +45,7 @@
 			</div>
 			<div class="row pt-lg-2">
 				<div class="col">
-					<textarea class="form-control" rows="5" readonly>{{data[2]}}</textarea>
+					<textarea class="form-control" rows="5" readonly>{{data[6]}}</textarea>
 				</div>
 				<div class="col-3"></div>
 			</div>
@@ -54,16 +54,16 @@
 				<div class="row pt-lg-2">
 					<div class="col-2"></div>
 					<div class="col-2">
-						<button type="button" class="btn btn-secondary" value="edit {{data[0]}}">Edit Idea</button>
+						<button type="button" name="idea_operation" class="btn btn-secondary" value="edit {{data[0]}}">Edit Idea</button>
 					</div>
 					<div class="col-2">
-						<button type="button" class="btn btn-danger" value="delete {{data[0]}}">Delete Idea</button>
+						<button type="button" name="idea_operation" class="btn btn-danger" value="delete {{data[0]}}">Delete Idea</button>
 					</div>
 					<div class="col-2">
 						{% if data[3] == 'TRUE' %}
-							<button type="button" class="btn btn-info" value="view {{data[0]}}">View Question</button>
+							<button type="button" name="idea_operation" class="btn btn-info" value="view {{data[0]}}">View Question</button>
 						{% else %}
-							<button type="button" class="btn btn-info" value="create {{data[0]}}">Create Question</button>
+							<button type="button" name="idea_operation" class="btn btn-info" value="create {{data[0]}}">Create Question</button>
 						{% endif %}
 					</div>
 				</div>

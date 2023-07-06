@@ -39,10 +39,6 @@ class DataFetcher:
 		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
 		values with the string terminated by an ellipsis, limiting the length to max allowed length
 		"""
-		"""
-		Given a list of strings and a list of maximum allowed lengths, the method returns a list of 
-		values with the string terminated by an ellipsis, limiting the length to max allowed length
-		"""
 		res_strs = []
 		for string, length in zip(str_list, len_list):
 			res_strs.append(string[:length-3] + "..." if len(string) > length else string)
@@ -121,8 +117,6 @@ class DataFetcher:
 		if 'idea' in session['page']:
 			# The order of data is: 
 			# index, r_idea, r_sources, is_framed, f_idea, f_sources
-			# The order of data is: 
-			# index, r_idea, r_sources, is_framed, f_idea, f_sources
 			for line in data:
 				idea, sources = self.length_reducer([line[1], line[2]], [60, 30])
 				line_to_display = [line[0], idea, sources, line[3], line[4], line[1], line[2]]
@@ -130,9 +124,6 @@ class DataFetcher:
 		
 		# Display questions
 		if 'question' in session['page']:
-			# The order of data is:
-			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
-			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
 			# The order of data is:
 			# index, r_question, r_answer, r_explanation, idea index, created date, author, r_categories, used in, f_question, f_answer, f_explanation, f_categories
 			# index, question_text, answer, explanation, idea_index, cnm, create_date, qd.owner, qd.used_in, qcl.snm
@@ -151,23 +142,17 @@ class DataFetcher:
 		if 'quiz' in session['page']:
 			# The order of data is:
 			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
-			# The order of data is:
-			# quiz_id, event, r_title, quizmasters, venue, date of quiz, number of questions, reception, r_remarks, f_title, f_remarks
 			for line in data:
 				title, reception = self.length_reducer([line[2], line[13]], [30, 25])
 				date_val = line[5].strftime('%d-%m-%Y')
 				line_to_display = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
 				data_to_display.append(line_to_display)
-
-		# Display notes
 				date_val = line[5].strftime('%d-%m-%Y')
 				line_to_display = [line[0], line[1], title, line[3], line[4], date_val, line[6], line[12], reception, line[2], line[13]]
 				data_to_display.append(line_to_display)
 
 		# Display notes
 		if 'note' in session['page']:
-			# The order of data is:
-			# r_note, create date, last updated date, f_note
 			# The order of data is:
 			# r_note, create date, last updated date, f_note
 			for line in data:

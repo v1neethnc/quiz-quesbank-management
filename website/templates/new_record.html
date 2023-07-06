@@ -10,23 +10,58 @@
 		</div>
 		<br>
 		<form method="POST">
-			<div class="pt-lg-2">
-				<label class="font-weight-bold">Idea or Fact</label>
-				<textarea rows="6" name="idea" id="idea" style="width:100%;"></textarea>
-<<<<<<< HEAD
-=======
-			<!-- <label for="floatingInput" class="font-weight-bold">Idea or Fact</label> -->
->>>>>>> 9aab9d9eb74c5bb2cbc76f7ad9902474b9b6dbfb
+			<div class="row">
+				<div class="col">
+					<h4>Index</h4>
+				</div>
+				<div class="col">
+					<h4>Author</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<input class="form-control" name="idea_index" id="idea_index" type="text" value="{{data[0]}}" readonly>
+				</div>
+				<div class="col">
+					<input class="form-control" name="author" id="author" type="text" value="{{data[1]}}" readonly>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col">
+					<h4>Idea/Fact</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<textarea rows="6" name="idea" id="idea" style="width:100%;"></textarea>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col">
+					<h4>Sources/Notes</h4>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<textarea rows="8" name="sources" id="sources" class="form-control"></textarea>
+				</div>
+			</div>
+			<!-- <div class="pt-lg-2">
+				<h4>Index</h4>
+				<input class="form-control" type="text" value="{{data[0]}}" readonly>
 			</div>
 			<br>
 			<div class="pt-lg-2">
-				<label class="font-weight-bold">Sources</label>
-				<textarea rows="8" name="sources" id="sources" class="form-control"></textarea>
-<<<<<<< HEAD
-=======
-				<!-- <label for="floatingInput" class="font-weight-bold">Sources</label> -->
->>>>>>> 9aab9d9eb74c5bb2cbc76f7ad9902474b9b6dbfb
+				<h4>Idea or Fact</h4>
+				<textarea rows="6" name="idea" id="idea" style="width:100%;"></textarea>
 			</div>
+			<br>
+			<div class="pt-lg-2">
+				<h4>Sources</h4>
+				<textarea rows="8" name="sources" id="sources" class="form-control"></textarea>
+			</div> -->
 			<br>
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary btn-lg">Add Idea</button>
@@ -40,12 +75,12 @@
 	<br>
 	<form>
 		<div class="pt-lg-2">
-			<label class="font-weight-bold">Idea or Fact</label>
+			<h4>Idea or Fact</h4>
 			<textarea rows="10" name="idea" id="idea" style="width:100%;"></textarea>
 		</div>
 		<br>
 		<div class="pt-lg-2">
-			<label class="font-weight-bold">Sources</label>
+			<h4>Sources</h4>
 			<textarea name="sources" id="sources" class="form-control"></textarea>
 		</div>
 		<br>
@@ -62,10 +97,10 @@
 	<form>
 		<div class="row pt-lg-2">
 			<div class="col">
-				<label class="font-weight-bold">Event</label>
+				<h4>Event</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Title</label>
+				<h4>Title</h4>
 			</div>
 		</div>
 		<div class="row pt-lg-2">
@@ -78,10 +113,10 @@
 		</div>
 		<div class="row pt-lg-4">
 			<div class="col">
-				<label class="font-weight-bold">Quizmasters</label>
+				<h4>Quizmasters</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Date of Quiz</label>
+				<h4>Date of Quiz</h4>
 			</div>
 		</div>
 		<div class="row pt-lg-2">
@@ -94,13 +129,13 @@
 		</div>
 		<div class="row pt-lg-4">
 			<div class="col">
-				<label class="font-weight-bold">Number of Questions</label>
+				<h4>Number of Questions</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Number of Teams</label>
+				<h4>Number of Teams</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Maximum Possible Score</label>
+				<h4>Maximum Possible Score</h4>
 			</div>
 		</div>
 		<div class="row pt-lg-2">
@@ -116,13 +151,13 @@
 		</div>
 		<div class="row pt-lg-4">
 			<div class="col">
-				<label class="font-weight-bold">First Place Score</label>
+				<h4>First Place Score</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Second Place Score</label>
+				<h4>Second Place Score</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Third Place Score</label>
+				<h4>Third Place Score</h4>
 			</div>
 		</div>
 		<div class="row pt-lg-2">
@@ -138,10 +173,10 @@
 		</div>
 		<div class="row pt-lg-4">
 			<div class="col">
-				<label class="font-weight-bold">Quizmaster Remarks</label>
+				<h4>Quizmaster Remarks</h4>
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Reception</label>
+				<h4>Reception</h4>
 			</div>
 		</div>
 		<div class="row pt-lg-2">
